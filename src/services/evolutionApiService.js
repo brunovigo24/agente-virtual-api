@@ -12,6 +12,7 @@ async function enviarMensagem(telefone, texto) {
   const payload = {
     instanceName: INSTANCE_NAME,
     number: numeroLimpo,
+    delay: 1000,
     text: texto
   };
 
@@ -42,9 +43,9 @@ async function enviarMensagem(telefone, texto) {
 }
 
 /**
- * Envia menu em forma de lista
+ * Envia menu em forma de lista usando fetch conforme documentação
  */
-async function enviarMenuLista(telefone, titulo, descricao, opcoes, botao = 'Escolher opção') {
+async function enviarMenuLista(telefone, titulo, descricao, opcoes, botao = 'Escolher opção', footer = '', delay = 1000) {
   const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
   const sections = [
     {
@@ -57,30 +58,37 @@ async function enviarMenuLista(telefone, titulo, descricao, opcoes, botao = 'Esc
     }
   ];
 
+  const payload = {
+    number: numeroLimpo,
+    title: titulo,
+    description: descricao,
+    buttonText: botao,
+    footerText: footer,
+    sections,
+    delay
+    // outros campos opcionais podem ser adicionados conforme necessário
+  };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      apikey: API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  };
+
   try {
-    const response = await axios.post(
-      `${API_URL}/message/sendListMessage`,
-      {
-        number: numeroLimpo,
-        buttonText: botao,
-        description: descricao,
-        sections,
-        instanceName: INSTANCE_NAME
-      },
-      {
-        headers: {
-          apikey: API_KEY,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    console.log('Menu lista enviado:', response.data);
-    return response.data;
+    const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+    const response = await fetch(`${API_URL}/message/sendList/${INSTANCE_NAME}`, options);
+    const data = await response.json();
+    console.log('Menu lista enviado:', response.status, data);
+    if (!response.ok) {
+      throw new Error(`Erro ao enviar menu lista: ${response.status} - ${JSON.stringify(data)}`);
+    }
+    return data;
   } catch (error) {
     console.error('Erro ao enviar menu lista:', {
-      status: error.response?.status,
-      error: error.response?.statusText,
-      response: error.response?.data,
       message: error.message
     });
     throw error;

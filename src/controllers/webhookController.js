@@ -26,8 +26,9 @@ exports.handleWebhook = async (req, res) => {
     const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
     const conversa = await conversaService.getOrCreateAtiva(cliente);
 
-    const primeiraInteracao = conversa.nova;
-    await mensagemService.registrarEntrada(conversa, mensagem);
+    const primeiraInteracao = !conversa; // true se não houver conversa ativa
+
+    await mensagemService.registrarEntrada(conversa, mensagem); // fazer
 
     if (primeiraInteracao) {
       await evolutionApiService.enviarMensagem(telefone, 'Olá, seja bem-vindo à nossa escola! 😊');
