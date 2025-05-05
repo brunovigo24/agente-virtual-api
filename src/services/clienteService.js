@@ -1,7 +1,10 @@
 const db = require('../database');
 
 exports.findOrCreateByTelefone = async (telefone, nomePessoa) => {
-  const [rows] = await db.query('SELECT * FROM clientes WHERE telefone = ?', [telefone]);
+  // Remove tudo após o '@', inclusive
+  const telefoneLimpo = telefone.split('@')[0];
+
+  const [rows] = await db.query('SELECT * FROM clientes WHERE telefone = ?', [telefoneLimpo]);
 
   if (rows.length > 0) {
     return rows[0];
@@ -9,7 +12,7 @@ exports.findOrCreateByTelefone = async (telefone, nomePessoa) => {
 
   const [result] = await db.query(
     'INSERT INTO clientes (telefone, nome) VALUES (?, ?)',
-    [telefone, nomePessoa]
+    [telefoneLimpo, nomePessoa]
   );
 
   const [newRows] = await db.query('SELECT * FROM clientes WHERE id = ?', [result.insertId]);
