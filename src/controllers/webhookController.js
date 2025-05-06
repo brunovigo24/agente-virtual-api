@@ -34,7 +34,8 @@ exports.handleWebhook = async (req, res) => {
       conversa = await conversaService.criar(cliente);
       await mensagemService.registrarEntrada(conversa, mensagem);
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas); 
-      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.menuPrincipal); 
+      await evolutionApiService.enviarLista(telefone);
+      //await evolutionApiService.enviarMensagem(telefone, mensagensSistema.menuPrincipal); 
       return res.json({ status: 'menu enviado' });
     } else {
       await mensagemService.registrarEntrada(conversa, mensagem);
