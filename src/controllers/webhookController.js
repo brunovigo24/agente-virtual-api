@@ -20,7 +20,10 @@ exports.handleWebhook = async (req, res) => {
     const instancia = dados?.instance;
     const nomePessoa = dados?.data?.pushName || 'Desconhecido';
     const idMensagem = dados?.data?.key?.id;
-    const mensagem = dados?.data?.message?.conversation || '';
+    // Extrai mensagem normal ou rowId de resposta de lista
+    const mensagem = dados?.data?.message?.conversation 
+      || dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId 
+      || '';
 
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
@@ -34,7 +37,7 @@ exports.handleWebhook = async (req, res) => {
       conversa = await conversaService.criar(cliente);
       await mensagemService.registrarEntrada(conversa, mensagem);
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas); 
-      await evolutionApiService.enviarLista(telefone);
+      await evolutionApiService.enviarLista(telefone, menus.menuPrincipal);
       //await evolutionApiService.enviarMensagem(telefone, mensagensSistema.menuPrincipal); 
       return res.json({ status: 'menu enviado' });
     } else {

@@ -1,4 +1,5 @@
 const axios = require('axios');
+const menus = require('../utils/menus'); 
 
 const API_URL = process.env.EVOLUTION_API_URL || 'http://172.26.0.4:8080';
 const API_KEY = process.env.EVOLUTION_API_KEY || 'E5D987D920E2-4663-91C5-BD4AF0965CED';
@@ -44,53 +45,32 @@ async function enviarMensagem(telefone, texto) {
 
 /**
  * Envia uma lista de opções (menu) para o usuário
+ * @param {string} telefone - Número do destinatário
+ * @param {object} menu - Objeto de menu (menus.menuPrincipal, menus.matriculasMenu, etc)
  */
-async function enviarLista(telefone) {
+async function enviarLista(telefone, menu, menuIds = {}) {
   const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
 
-  // Menu principal fixo conforme menus.js
-  const menuPrincipal = {
-    titulo: 'Menu Principal',
-    descricao: 'Escolha uma opção para continuar:',
-    opcoes: [
-      { id: '1', titulo: 'Matrículas' },
-      { id: '2', titulo: 'Coordenação' },
-      { id: '3', titulo: 'Financeiro' },
-      { id: '4', titulo: 'Documentação' },
-      { id: '5', titulo: 'RH' }
-    ]
-  };
-
-  // Mapeamento dos ids para cada opção do menu principal
-  const menuIds = {
-    '1': 'matriculas_menu',
-    '2': 'coordenacao_menu',
-    '3': 'financeiro_menu',
-    '4': 'documentacao_menu',
-    '5': 'rh_menu'
-  };
-
-  // Monta as opções (rows) a partir do menu principal
-  const rows = menuPrincipal.opcoes.map(opcao => ({
+  // Monta as opções (rows) a partir do menu recebido
+  const rows = menu.opcoes.map(opcao => ({
     title: opcao.titulo,
-    rowId: menuIds[opcao.id] || opcao.id
+    rowId: opcao.id  
   }));
 
   const payload = {
     instanceName: INSTANCE_NAME,
     number: numeroLimpo,
-    title: menuPrincipal.titulo,
-    description: menuPrincipal.descricao,
+    title: menu.titulo,
+    description: menu.descricao,
     buttonText: 'Selecionar',
     footerText: 'Selecione uma opção abaixo:',
     sections: [
       {
-        title: menuPrincipal.titulo,
+        title: menu.titulo,
         rows: rows
       }
     ],
     delay: 1000
-    // Adicione outros campos se necessário
   };
 
   const options = {
