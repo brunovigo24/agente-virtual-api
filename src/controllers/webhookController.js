@@ -4,7 +4,7 @@ const mensagemService = require('../services/mensagemService');
 const roteadorService = require('../services/roteadorService');
 const evolutionApiService = require('../services/evolutionApiService');
 const menus = require('../utils/menus');
-const mensagensSistema = require('../utils/mensagensSistema'); // adicionado
+const mensagensSistema = require('../utils/mensagensSistema'); 
 
 exports.handleWebhook = async (req, res) => {
   try {
@@ -25,9 +25,9 @@ exports.handleWebhook = async (req, res) => {
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
     const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
-    let conversa = await conversaService.getAtiva(cliente); // busca apenas
+    let conversa = await conversaService.getAtiva(cliente); 
 
-    const primeiraInteracao = !conversa; // true se não houver conversa ativa
+    const primeiraInteracao = !conversa; 
 
     if (primeiraInteracao) {
       // Cria nova conversa
