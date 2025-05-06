@@ -34,6 +34,84 @@ module.exports = {
         { id: '5', titulo: 'Ensino médio' }
       ]
     },
+    coordenacao_infantil_zona5: {
+      titulo: 'Educação Infantil Zona 5',
+      descricao: mensagensSistema.coordenacaoInfantilZona5Menu,
+      opcoes: [
+        { id: '1', titulo: 'Calendário Escolar 2025' },
+        { id: '2', titulo: 'Horário de aula' },
+        { id: '3', titulo: 'Cronograma - Tarefa de casa' },
+        { id: '4', titulo: 'Horário de alimentação' },
+        { id: '5', titulo: 'Senha de acesso do app da Perto' },
+        { id: '6', titulo: 'Eventos' },
+        { id: '7', titulo: 'Cronograma de aulas extras' }
+      ]
+    },
+    coordenacao_infantil_santos_dumount: {
+      titulo: 'Educação Infantil Santos Dumount',
+      descricao: mensagensSistema.coordenacaoInfantilSantosDumountMenu,
+      opcoes: [
+        { id: '1', titulo: 'Calendário Escolar 2025' },
+        { id: '2', titulo: 'Horário de aula' },
+        { id: '3', titulo: 'Cronograma - Tarefa de casa' },
+        { id: '4', titulo: 'Horário de alimentação' },
+        { id: '5', titulo: 'Senha de acesso do app da Perto' },
+        { id: '6', titulo: 'Eventos' },
+        { id: '7', titulo: 'Cronograma de aulas extras' }
+      ]
+    },
+    coordenacao_anos_iniciais: {
+      titulo: 'Anos Iniciais',
+      descricao: mensagensSistema.coordenacaoAnosIniciaisMenu,
+      opcoes: [
+        { id: '1', titulo: 'Calendário Escolar 2025' },
+        { id: '2', titulo: 'Horário de aula' },
+        { id: '3', titulo: 'Cronograma de prova' },
+        { id: '4', titulo: 'Recuperação' },
+        { id: '5', titulo: '2° Chamada' },
+        { id: '6', titulo: 'Eventos' },
+        { id: '7', titulo: 'Passeios externos' },
+        { id: '8', titulo: 'Outros assuntos' }
+      ]
+    },
+    coordenacao_anos_finais: {
+      titulo: 'Anos Finais',
+      descricao: mensagensSistema.coordenacaoAnosFinaisMenu,
+      opcoes: [
+        { id: '1', titulo: 'Calendário Escolar 2025' },
+        { id: '2', titulo: 'Horário de aula' },
+        { id: '3', titulo: 'Cronograma de prova' },
+        { id: '4', titulo: 'Recuperação' },
+        { id: '5', titulo: '2° Chamada' },
+        { id: '6', titulo: 'Eventos' },
+        { id: '7', titulo: 'Passeios externos' },
+        { id: '8', titulo: 'Outros assuntos' }
+      ]
+    },
+    coordenacao_ensino_medio: {
+      titulo: 'Ensino Médio',
+      descricao: mensagensSistema.coordenacaoEnsinoMedioMenu,
+      opcoes: [
+        { id: '1', titulo: 'Calendário Escolar' },
+        { id: '2', titulo: 'Horário de aula' },
+        { id: '3', titulo: 'Cronograma de prova' },
+        { id: '4', titulo: 'Recuperação' },
+        { id: '5', titulo: '2° Chamada' },
+        { id: '6', titulo: 'Notas parciais' },
+        { id: '7', titulo: 'Agendamentos Coordenação/Professores' },
+        { id: '8', titulo: 'Boletim Trimestral ' },
+        { id: '9', titulo: 'Cursinho' },
+        { id: '10', titulo: 'Outros assuntos' }
+      ]
+    },
+    coordenacao_ensino_medio_cursinho: {
+      titulo: 'Cursinho',
+      descricao: mensagensSistema.coordenacaoEnsinoMedioCursinhoMenu,
+      opcoes: [
+        { id: '1', titulo: 'Quero me matricular' },
+        { id: '2', titulo: 'Informações' },
+      ]
+    },
     financeiro_menu: {
       titulo: 'Financeiro',
       descricao: mensagensSistema.financeiroMenu,
@@ -45,6 +123,25 @@ module.exports = {
         { id: '5', titulo: 'Cancelamentos' }
       ]
     },
+    financeiro_cancelamentos: {
+      titulo: 'Cancelamentos',
+      descricao: mensagensSistema.financeiroCancelamentosMenu,
+      opcoes: [
+        { id: '1', titulo: 'Período integral' },
+        { id: '2', titulo: 'Matrícula total' },
+        { id: '3', titulo: 'Extras curriculares' }
+      ]
+    },
+    financeiro_extras_curriculares: {
+      titulo: 'Extras curriculares',
+      descricao: mensagensSistema.financeiroExtrasCurricularesMenu,
+      opcoes: [
+        { id: '1', titulo: 'Basquete' },
+        { id: '2', titulo: 'Futsal' },
+        { id: '3', titulo: 'Vôlei' },
+      ]
+    },
+
     documentacao_menu: {
       titulo: 'Documentação',
       descricao: mensagensSistema.documentacaoMenu,
@@ -54,6 +151,23 @@ module.exports = {
         { id: '3', titulo: 'Histórico Escolar' }
       ]
     },
+    documentacao_transferencia: {
+      titulo: 'Transferência',
+      descricao: mensagensSistema.documentacaoTransferenciaMenu,
+      opcoes: [
+        { id: '1', titulo: 'Solicitar 1ª via' },
+        { id: '2', titulo: 'Solicitar 2ª via' }
+      ]
+    },
+    documentacao_historico_escolar: {
+      titulo: 'Histórico Escolar',
+      descricao: mensagensSistema.documentacaoHistoricoEscolarMenu,
+      opcoes: [
+        { id: '1', titulo: 'Solicitar 1ª via' },
+        { id: '2', titulo: 'Solicitar 2ª via' }
+      ]
+    },
+
     rh_menu: {
       titulo: 'RH',
       descricao: mensagensSistema.rhMenu,
@@ -61,6 +175,16 @@ module.exports = {
         { id: '1', titulo: 'Quero enviar meu currículo' },
         { id: '2', titulo: 'Status de processo seletivo' },
         { id: '3', titulo: 'Já sou funcionário' }
+      ]
+    },
+    rh_sou_funcionario: {
+      titulo: 'Já sou funcionário',
+      descricao: mensagensSistema.rhSouFuncionarioMenu,
+      opcoes: [
+        { id: '1', titulo: 'Solicitar Holerite' },
+        { id: '2', titulo: 'Banco de horas' },
+        { id: '3', titulo: 'Defeito no relógio ponto' },
+        { id: '4', titulo: 'Outros assuntos' }
       ]
     },
     matriculas_infantil: {

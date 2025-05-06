@@ -11,9 +11,25 @@ module.exports = {
     
     
     coordenacaoMenu: `Escolha uma das opções abaixo:\n1️⃣ Educação Infantil Zona 5\n2️⃣ Educação Infantil Santos Dumount\n3️⃣ Anos Iniciais\n4️⃣ Anos Finais\n5️⃣ Ensino médio`,
+      coordenacaoInfantilZona5Menu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar 2025\n2️⃣ Horário de aula\n3️⃣ Cronograma - Tarefa de casa\n4️⃣ Horário de alimentação\n5️⃣ Senha de acesso do app da Perto\n6️⃣ Eventos\n7️⃣ Cronograma de aulas extras`,
+      coordenacaoInfantilSantosDumountMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar 2025\n2️⃣ Horário de aula\n3️⃣ Cronograma - Tarefa de casa\n4️⃣ Horário de alimentação\n5️⃣ Senha de acesso do app da Perto\n6️⃣ Eventos\n7️⃣ Cronograma de aulas extras`,
+      coordenacaoAnosIniciaisMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar 2025\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Eventos\n7️⃣ Passeios externos\n8️⃣ Outros assuntos`,
+      coordenacaoAnosFinaisMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Eventos\n7️⃣ Passeios externos\n8️⃣ Outros assuntos`,
+      coordenacaoEnsinoMedioMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Notas parciais\n7️⃣ Agendamentos Coordenação/Professores\n8️⃣ Boletim Trimestral\n9️⃣ Cursinho\n🔟 Outros assuntos`, 
+        coordenacaoEnsinoMedioCursinhoMenu: `Escolha uma das opções abaixo:\n1️⃣ Quero me matricular\n2️⃣ Informações`,
+
     financeiroMenu: `Escolha uma das opções abaixo:\n1️⃣ 2ª Via de Boleto\n2️⃣ Negociar valores em aberto\n3️⃣ Solicitar cópia de contrato\n4️⃣ Declaração de IRRF 2024\n5️⃣ Cancelamentos`,
+      financeiroCancelamentosMenu: `Escolha uma das opções abaixo:\n1️⃣ Período integral\n2️⃣ Matrícula total\n3️⃣ Extras curriculares`,
+      financeiroExtrasCurricularesMenu: `Escolha uma das opções abaixo:\n1️⃣ Basquete\n2️⃣ Futsal\n3️⃣ Vôlei`,
+
     documentacaoMenu: `Escolha uma das opções abaixo:\n1️⃣ Declaração de mátricula\n2️⃣ Transferência\n3️⃣ Histórico Escolar`,
+      documentacaoTransferenciaMenu: `Escolha uma das opções abaixo:\n1️⃣ Solicitar 1ª via\n2️⃣ Solicitar 2ª via`,
+      documentacaoHistoricoEscolarMenu: `Escolha uma das opções abaixo:\n1️⃣ Solicitar 1ª via\n2️⃣ Solicitar 2ª via`,
+
     rhMenu: `Escolha uma das opções abaixo:\n1️⃣ Quero enviar meu currículo\n2️⃣ Status de processo seletivo\n3️⃣ Já sou funcionário`,
+      rhSouFuncionarioMenu: `Escolha uma das opções abaixo:\n1️⃣ Solicitar Holerite\n2️⃣ Banco de horas\n3️⃣ Defeito no relógio ponto\n4️⃣ Outros assuntos`,
+
+    atendimentoEncerrado: `Atendimento encerrado. Se precisar de mais alguma coisa, é só chamar!`,
     opcaoInvalida: `Desculpe, não entendi sua resposta. Por favor, selecione uma opção do menu.`,
     mensagemPadrao: `Estamos te redirecionando para o atendimento humano...`,
     
