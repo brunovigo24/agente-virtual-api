@@ -9,7 +9,8 @@ module.exports = {
         { id: '2', titulo: 'Coordenação' },
         { id: '3', titulo: 'Financeiro' },
         { id: '4', titulo: 'Documentação' },
-        { id: '5', titulo: 'RH' }
+        { id: '5', titulo: 'RH' },
+        { id: '0', titulo: 'Encerrar atendimento' }
       ]
     },
     matriculas_menu: {

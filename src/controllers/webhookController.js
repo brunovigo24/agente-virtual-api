@@ -4,7 +4,7 @@ const mensagemService = require('../services/mensagemService');
 const roteadorService = require('../services/roteadorService');
 const evolutionApiService = require('../services/evolutionApiService');
 const menus = require('../utils/menus');
-const mensagensSistema = require('../utils/mensagensSistema'); 
+const mensagensSistema = require('../utils/mensagensSistema');
 
 exports.handleWebhook = async (req, res) => {
   try {
@@ -21,32 +21,38 @@ exports.handleWebhook = async (req, res) => {
     const nomePessoa = dados?.data?.pushName || 'Desconhecido';
     const idMensagem = dados?.data?.key?.id;
     // Extrai mensagem normal ou rowId de resposta de lista
-    const mensagem = dados?.data?.message?.conversation 
-      || dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId 
+    const mensagem = dados?.data?.message?.conversation
+      || dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId
       || '';
 
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
     const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
-    let conversa = await conversaService.getAtiva(cliente); 
+    let conversa = await conversaService.getAtiva(cliente);
 
-    const primeiraInteracao = !conversa; 
+    const primeiraInteracao = !conversa;
 
     if (primeiraInteracao) {
       // Cria nova conversa
       conversa = await conversaService.criar(cliente);
       await mensagemService.registrarEntrada(conversa, mensagem);
-      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas); 
+      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas);
       await evolutionApiService.enviarLista(telefone, menus.menu_principal);
-      //await evolutionApiService.enviarMensagem(telefone, mensagensSistema.menuPrincipal); 
       return res.json({ status: 'menu enviado' });
     } else {
       await mensagemService.registrarEntrada(conversa, mensagem);
+
+      if (mensagem === '0') {
+        await conversaService.finalizarConversa(conversa.id);
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+        return res.json({ status: 'atendimento encerrado' });
+      }
+
       const proximoMenu = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa);
       if (proximoMenu) {
         await evolutionApiService.enviarLista(telefone, proximoMenu);
       } else {
-        await evolutionApiService.enviarMensagem(telefone, 'Recebido!');
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
       }
     }
 

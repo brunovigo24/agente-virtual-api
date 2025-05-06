@@ -5,7 +5,8 @@ module.exports = {
             '2': 'coordenacao_menu',
             '3': 'financeiro_menu',
             '4': 'documentacao_menu',
-            '5': 'rh_menu'
+            '5': 'rh_menu',
+            '0': 'encerrar_atendimento'
         }
     },
     matriculas_menu: {
