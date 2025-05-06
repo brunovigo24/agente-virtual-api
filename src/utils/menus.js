@@ -1,7 +1,7 @@
 const mensagensSistema = require('../utils/mensagensSistema'); 
 
 module.exports = {
-    menuPrincipal: {
+    menu_principal: {
       titulo: 'Menu Principal',
       descricao: mensagensSistema.menuPrincipal,
       opcoes: [
@@ -12,7 +12,7 @@ module.exports = {
         { id: '5', titulo: 'RH' }
       ]
     },
-    matriculasMenu: {
+    matriculas_menu: {
       titulo: 'Matrículas',
       descricao: mensagensSistema.matriculasMenu,
       opcoes: [
@@ -22,7 +22,7 @@ module.exports = {
         { id: '4', titulo: 'Ensino Médio' }
       ]
     },
-    coordenacaoMenu: {
+    coordenacao_menu: {
       titulo: 'Coordenação',
       descricao: mensagensSistema.coordenacaoMenu,
       opcoes: [
@@ -33,7 +33,7 @@ module.exports = {
         { id: '5', titulo: 'Ensino médio' }
       ]
     },
-    financeiroMenu: {
+    financeiro_menu: {
       titulo: 'Financeiro',
       descricao: mensagensSistema.financeiroMenu,
       opcoes: [
@@ -44,7 +44,7 @@ module.exports = {
         { id: '5', titulo: 'Cancelamentos' }
       ]
     },
-    documentacaoMenu: {
+    documentacao_menu: {
       titulo: 'Documentação',
       descricao: mensagensSistema.documentacaoMenu,
       opcoes: [
@@ -53,13 +53,46 @@ module.exports = {
         { id: '3', titulo: 'Histórico Escolar' }
       ]
     },
-    rhMenu: {
+    rh_menu: {
       titulo: 'RH',
       descricao: mensagensSistema.rhMenu,
       opcoes: [
         { id: '1', titulo: 'Quero enviar meu currículo' },
         { id: '2', titulo: 'Status de processo seletivo' },
         { id: '3', titulo: 'Já sou funcionário' }
+      ]
+    },
+    matriculas_infantil: {
+      titulo: 'Educação Infantil',
+      descricao: mensagensSistema.matriculasInfantilMenu,
+      opcoes: [
+        { id: '1', titulo: 'Agendar visita' },
+        { id: '2', titulo: 'Solicitar vídeo institucional' },
+        { id: '3', titulo: 'Solicitar mais informações' }
+      ]
+    },
+    matriculas_anos_iniciais: {
+      titulo: 'Anos Iniciais',
+      descricao: mensagensSistema.matriculasAnosIniciaisMenu,
+      opcoes: [
+        { id: '1', titulo: 'Agendar visita' },
+        { id: '2', titulo: 'Solicitar mais informações' }
+      ]
+    },
+    matriculas_anos_finais: {
+      titulo: 'Anos Finais',
+      descricao: mensagensSistema.matriculasAnosFinaisMenu,
+      opcoes: [
+        { id: '1', titulo: 'Agendar visita' },
+        { id: '2', titulo: 'Solicitar mais informações' }
+      ]
+    },
+    matriculas_ensino_medio: {
+      titulo: 'Ensino Médio',
+      descricao: mensagensSistema.matriculasEnsinoMedioMenu,
+      opcoes: [
+        { id: '1', titulo: 'Agendar visita' },
+        { id: '2', titulo: 'Solicitar mais informações' }
       ]
     }
 };

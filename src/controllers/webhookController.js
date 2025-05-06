@@ -37,13 +37,17 @@ exports.handleWebhook = async (req, res) => {
       conversa = await conversaService.criar(cliente);
       await mensagemService.registrarEntrada(conversa, mensagem);
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas); 
-      await evolutionApiService.enviarLista(telefone, menus.menuPrincipal);
+      await evolutionApiService.enviarLista(telefone, menus.menu_principal);
       //await evolutionApiService.enviarMensagem(telefone, mensagensSistema.menuPrincipal); 
       return res.json({ status: 'menu enviado' });
     } else {
       await mensagemService.registrarEntrada(conversa, mensagem);
-      const resposta = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa);
-      await evolutionApiService.enviarMensagem(telefone, resposta || 'Recebido!');
+      const proximoMenu = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa);
+      if (proximoMenu) {
+        await evolutionApiService.enviarLista(telefone, proximoMenu);
+      } else {
+        await evolutionApiService.enviarMensagem(telefone, 'Recebido!');
+      }
     }
 
     res.json({ status: 'ok' });

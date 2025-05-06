@@ -38,4 +38,25 @@ module.exports = {
         '2': 'rh_status_processo_seletivo',
         '3': 'rh_funcionario',
     },
+
+    matriculas_infantil: {
+        '1': 'Agendar visita',
+        '2': 'Solicitar vídeo institucional',
+        '3': 'Solicitar mais informações'
+    },
+
+    matriculas_anos_iniciais: {
+        '1': 'Agendar visita',
+        '2': 'Solicitar mais informações'
+    },
+
+    matriculas_anos_finais: {
+        '1': 'Agendar visita',
+        '2': 'Solicitar mais informações'
+    },
+
+    matriculas_ensino_medio: {
+        '1': 'Agendar visita',
+        '2': 'Solicitar mais informações'
+    }
 };

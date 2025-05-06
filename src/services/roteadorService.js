@@ -1,6 +1,8 @@
 const fluxo = require('../utils/fluxoEtapas');
 const mensagens = require('../utils/mensagensSistema');
 const conversaService = require('./conversaService');
+const menus = require('../utils/menus');
+
 
 exports.avaliar = async (etapaAtual, mensagem, conversa) => {
   let opcoes = fluxo.rotas[etapaAtual] || fluxo[etapaAtual];
@@ -9,10 +11,16 @@ exports.avaliar = async (etapaAtual, mensagem, conversa) => {
   if (proximaEtapa) {
     await conversaService.atualizarEtapa(conversa.id, proximaEtapa);
 
-    // Busca mensagem do sistema pelo nome do menu, se existir
-    const menuMsgKey = proximaEtapa.replace(/_menu$/, 'Menu');
-    return mensagens[proximaEtapa] || mensagens[menuMsgKey] || '🔧 Em construção.';
+    // Busca menu correspondente à próxima etapa, se existir
+    const menuKey = proximaEtapa.replace(/_menu$/, 'Menu');
+    if (menus[proximaEtapa]) {
+      return menus[proximaEtapa];
+    }
+    if (menus[menuKey]) {
+      return menus[menuKey];
+    }
+    return null; // Não há menu, controller envia mensagem padrão
   }
 
-  return mensagens.opcaoInvalida; 
+  return null; // Opção inválida, controller envia mensagem padrão
 };
