@@ -24,13 +24,14 @@ exports.handleWebhook = async (req, res) => {
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
     const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
-    const conversa = await conversaService.getOrCreateAtiva(cliente);
+    let conversa = await conversaService.getAtiva(cliente); // busca apenas
 
     const primeiraInteracao = !conversa; // true se não houver conversa ativa
 
-    await mensagemService.registrarEntrada(conversa, mensagem); // fazer
-
     if (primeiraInteracao) {
+      // Cria nova conversa
+      conversa = await conversaService.criar(cliente);
+      await mensagemService.registrarEntrada(conversa, mensagem);
       await evolutionApiService.enviarMensagem(telefone, 'Olá, seja bem-vindo à nossa escola! 😊');
       await evolutionApiService.enviarMenuLista(
         telefone,
@@ -40,6 +41,7 @@ exports.handleWebhook = async (req, res) => {
       );
       return res.json({ status: 'menu enviado' });
     } else {
+      await mensagemService.registrarEntrada(conversa, mensagem);
       const resposta = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa);
       await evolutionApiService.enviarMensagem(telefone, resposta || 'Recebido!');
     }
