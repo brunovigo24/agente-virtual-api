@@ -36,7 +36,9 @@ module.exports = {
     nomeCompletoVaga: `Me diga seu nome completo e a vaga que está participando, por gentileza.`,
     duvida: `Qual a sua dúvida?`,
 
-    atendimentoEncerrado: `Atendimento encerrado. Se precisar de mais alguma coisa, é só chamar!`,
+    usuarioEncerrouAtendimento: `Atendimento encerrado. Se precisar de mais alguma coisa, é só chamar!`,
+    atendimentoEncerrado: `Seu atendimento foi encaminhado para um atendente humano. \n\nAguarde, por favor, que em breve alguém irá te atender. \n\n*Obrigado por entrar em contato com a CCIM.*`,
+
     opcaoInvalida: `Desculpe, não entendi sua resposta. Por favor, selecione uma opção do menu.`,
     mensagemPadrao: `Estamos te redirecionando para o atendimento humano...`,
     

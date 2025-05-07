@@ -44,7 +44,7 @@ exports.handleWebhook = async (req, res) => {
 
       if (mensagem === '0') {
         await conversaService.finalizarConversa(conversa.id);
-        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
         return res.json({ status: 'atendimento encerrado' });
       }
 
@@ -53,7 +53,11 @@ exports.handleWebhook = async (req, res) => {
         await evolutionApiService.enviarLista(telefone, resultadoRoteador.menu);
       } else if (resultadoRoteador?.tipo === 'acao') {
         // ação já executada pelo roteador
-      } else {
+      } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
+        await conversaService.finalizarConversa(conversa.id);
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+      } 
+      else {
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
       }
     }

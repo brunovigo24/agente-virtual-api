@@ -153,4 +153,8 @@ module.exports = {
             '3': 'rh_relogio_ponto',
             '4': 'rh_outros_assuntos'
         },
+        rh_relogio_ponto: {
+            '*': 'coleta_dados'
+        },
+        coleta_dados: {},
 };
