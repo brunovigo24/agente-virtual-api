@@ -21,7 +21,7 @@ module.exports = {
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.nomeCompletoAluno);
     },
   },
-  financeiro_extras_curriculares: {
+  financeiro_cancelamentos_extras_curriculares: {
     '1': async (telefone) => {
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.nomeCompletoAluno);
     },
@@ -56,6 +56,9 @@ module.exports = {
   },
 
   rh_menu: {
+    '1': async (telefone) => {
+      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.nomeCompleto);
+    },
     '2': async (telefone) => {
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.nomeCompletoVaga);
     },

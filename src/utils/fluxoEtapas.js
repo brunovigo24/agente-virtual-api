@@ -107,22 +107,42 @@ module.exports = {
         '5': 'financeiro_cancelamentos',
     },
         financeiro_2via_boleto: {
+            '*': 'coleta_dados'
         },
         financeiro_negociar_valores: {
+            '*': 'coleta_dados'
         },
         financeiro_copia_contrato: {
+            '*': 'coleta_dados'
         },
         financeiro_irrf_2024: {
+            '*': 'coleta_dados'
         },
         financeiro_cancelamentos: {
-            '1': 'Período integral',
-            '2': 'Matrícula total',
-            '3': 'financeiro_extras_curriculares', 
+            '1': 'financeiro_cancelamentos_periodo_integral',
+            '2': 'financeiro_cancelamentos_matricula_total',
+            '3': 'financeiro_cancelamentos_extras_curriculares', 
         },
-            financeiro_extras_curriculares: {
-                '1': 'Basquete',
-                '2': 'Futsal',
-                '3': 'Vôlei',
+        financeiro_cancelamentos_periodo_integral: {
+            '*': 'coleta_dados'
+        },
+        financeiro_cancelamentos_matricula_total: {
+            '*': 'coleta_dados'
+        },
+
+            financeiro_cancelamentos_extras_curriculares: {
+                '1': 'financeiro_extras_curriculares_basquete',
+                '2': 'financeiro_extras_curriculares_futsal',
+                '3': 'financeiro_extras_curriculares_volei',
+            },
+            financeiro_extras_curriculares_basquete: {
+                '*': 'coleta_dados'
+            },
+            financeiro_extras_curriculares_futsal: {
+                '*': 'coleta_dados'
+            },
+            financeiro_extras_curriculares_volei: {
+                '*': 'coleta_dados'
             },
 
     documentacao_menu: {
@@ -130,13 +150,22 @@ module.exports = {
         '2': 'documentacao_transferencia',
         '3': 'documentacao_historico_escolar',
     },
+        documentacao_declaracao_matricula : {
+            '*': 'coleta_dados'
+        },
         documentacao_transferencia: {
-            '1': 'Solicitar 1ª via',
-            '2': 'Solicitar 2ª via',
+            '*': 'solicitar_primeira_via',
+            '*': 'solicitar_segunda_via',
         },
         documentacao_historico_escolar: {
-            '1': 'Solicitar 1ª via',
-            '2': 'Solicitar 2ª via',
+            '*': 'solicitar_primeira_via',
+            '*': 'solicitar_segunda_via',
+        },
+        solicitar_primeira_via: {
+            '*': 'coleta_dados'
+        },
+        solicitar_segunda_via: {
+            '*': 'coleta_dados'
         },
 
     rh_menu: {
@@ -144,14 +173,23 @@ module.exports = {
         '2': 'rh_status_seletivo',
         '3': 'rh_sou_funcionario'
     },
+        rh_enviar_curriculo: {
+            '*': 'coleta_dados'
+        },
         rh_status_seletivo: {
-            '1': 'Me diga seu nome completo e a vaga que está participando'
+            '*': 'coleta_dados'
         }, 
         rh_sou_funcionario: {
             '1': 'rh_solicitar_holerite',
             '2': 'rh_banco_horas',
             '3': 'rh_relogio_ponto',
             '4': 'rh_outros_assuntos'
+        },
+        rh_solicitar_holerite: {
+            '*': 'coleta_dados'
+        },
+        rh_banco_horas : {
+            '*': 'coleta_dados'
         },
         rh_relogio_ponto: {
             '*': 'coleta_dados'

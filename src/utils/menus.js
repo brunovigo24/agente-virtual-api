@@ -132,7 +132,7 @@ module.exports = {
         { id: '3', titulo: 'Extras curriculares' }
       ]
     },
-    financeiro_extras_curriculares: {
+    financeiro_cancelamentos_extras_curriculares: {
       titulo: 'Extras curriculares',
       descricao: mensagensSistema.financeiroExtrasCurricularesMenu,
       opcoes: [

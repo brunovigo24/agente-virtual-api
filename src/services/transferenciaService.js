@@ -3,7 +3,7 @@ const mensagemService = require('./mensagemService');
 const evolutionApiService = require('./evolutionApiService');
 
 exports.transferirParaHumano = async (telefone, conversaId, numeroDestino) => {
-  // Remove o sufixo '@s.whatsapp.net' se existir
+
   const telefoneFormatado = telefone.replace(/@s\.whatsapp\.net$/, '');
 
   const etapas = await etapaService.getEtapas(conversaId);
