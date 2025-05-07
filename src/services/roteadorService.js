@@ -1,5 +1,4 @@
 const fluxo = require('../utils/fluxoEtapas');
-const mensagens = require('../utils/mensagensSistema');
 const conversaService = require('./conversaService');
 const menus = require('../utils/menus');
 const actionHandlers = require('../utils/actionHandlers');

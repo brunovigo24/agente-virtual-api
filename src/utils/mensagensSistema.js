@@ -17,6 +17,7 @@ module.exports = {
       coordenacaoAnosFinaisMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Eventos\n7️⃣ Passeios externos\n8️⃣ Outros assuntos`,
       coordenacaoEnsinoMedioMenu: `Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Notas parciais\n7️⃣ Agendamentos Coordenação/Professores\n8️⃣ Boletim Trimestral\n9️⃣ Cursinho\n🔟 Outros assuntos`, 
         coordenacaoEnsinoMedioCursinhoMenu: `Escolha uma das opções abaixo:\n1️⃣ Quero me matricular\n2️⃣ Informações`,
+      
 
     financeiroMenu: `Escolha uma das opções abaixo:\n1️⃣ 2ª Via de Boleto\n2️⃣ Negociar valores em aberto\n3️⃣ Solicitar cópia de contrato\n4️⃣ Declaração de IRRF 2024\n5️⃣ Cancelamentos`,
       financeiroCancelamentosMenu: `Escolha uma das opções abaixo:\n1️⃣ Período integral\n2️⃣ Matrícula total\n3️⃣ Extras curriculares`,
@@ -28,6 +29,12 @@ module.exports = {
 
     rhMenu: `Escolha uma das opções abaixo:\n1️⃣ Quero enviar meu currículo\n2️⃣ Status de processo seletivo\n3️⃣ Já sou funcionário`,
       rhSouFuncionarioMenu: `Escolha uma das opções abaixo:\n1️⃣ Solicitar Holerite\n2️⃣ Banco de horas\n3️⃣ Defeito no relógio ponto\n4️⃣ Outros assuntos`,
+
+    //Fluxo etapas
+    nomeCompletoAluno: `Me diga qual o nome completo e turma do aluno, por gentileza.`,
+    nomeCompleto: `Me diga seu nome completo, por gentileza.`,
+    nomeCompletoVaga: `Me diga seu nome completo e a vaga que está participando, por gentileza.`,
+    duvida: `Qual a sua dúvida?`,
 
     atendimentoEncerrado: `Atendimento encerrado. Se precisar de mais alguma coisa, é só chamar!`,
     opcaoInvalida: `Desculpe, não entendi sua resposta. Por favor, selecione uma opção do menu.`,

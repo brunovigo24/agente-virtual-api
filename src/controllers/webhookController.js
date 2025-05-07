@@ -5,7 +5,6 @@ const roteadorService = require('../services/roteadorService');
 const evolutionApiService = require('../services/evolutionApiService');
 const menus = require('../utils/menus');
 const mensagensSistema = require('../utils/mensagensSistema');
-const actionHandlers = require('../utils/actionHandlers');
 
 exports.handleWebhook = async (req, res) => {
   try {
@@ -36,12 +35,12 @@ exports.handleWebhook = async (req, res) => {
     if (primeiraInteracao) {
       // Cria nova conversa
       conversa = await conversaService.criar(cliente);
-      await mensagemService.registrarEntrada(conversa, mensagem);
+      await mensagemService.registrarEntrada(conversa.id, mensagem);
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas);
       await evolutionApiService.enviarLista(telefone, menus.menu_principal);
       return res.json({ status: 'menu enviado' });
     } else {
-      await mensagemService.registrarEntrada(conversa, mensagem);
+      await mensagemService.registrarEntrada(conversa.id, mensagem);
 
       if (mensagem === '0') {
         await conversaService.finalizarConversa(conversa.id);
