@@ -2,6 +2,7 @@ const fluxo = require('../utils/fluxoEtapas');
 const conversaService = require('./conversaService');
 const menus = require('../utils/menus');
 const actionHandlers = require('../utils/actionHandlers');
+const etapaService = require('./etapaService');
 
 exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
   let opcoes = fluxo.rotas[etapaAtual] || fluxo[etapaAtual];
@@ -14,6 +15,7 @@ exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
 
   if (proximaEtapa) {
     await conversaService.atualizarEtapa(conversa.id, proximaEtapa);
+    await etapaService.registrarEtapa(conversa.id, proximaEtapa);
 
     const menuKey = proximaEtapa.replace(/_menu$/, 'Menu');
     if (menus[proximaEtapa]) {
