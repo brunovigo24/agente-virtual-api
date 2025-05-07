@@ -5,6 +5,7 @@ const roteadorService = require('../services/roteadorService');
 const evolutionApiService = require('../services/evolutionApiService');
 const menus = require('../utils/menus');
 const mensagensSistema = require('../utils/mensagensSistema');
+const actionHandlers = require('../utils/actionHandlers');
 
 exports.handleWebhook = async (req, res) => {
   try {
@@ -48,9 +49,11 @@ exports.handleWebhook = async (req, res) => {
         return res.json({ status: 'atendimento encerrado' });
       }
 
-      const proximoMenu = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa);
-      if (proximoMenu) {
-        await evolutionApiService.enviarLista(telefone, proximoMenu);
+      const resultadoRoteador = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa, telefone);
+      if (resultadoRoteador?.tipo === 'menu') {
+        await evolutionApiService.enviarLista(telefone, resultadoRoteador.menu);
+      } else if (resultadoRoteador?.tipo === 'acao') {
+        // ação já executada pelo roteador
       } else {
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
       }

@@ -144,6 +144,9 @@ module.exports = {
         '2': 'rh_status_seletivo',
         '3': 'rh_sou_funcionario'
     },
+        rh_status_seletivo: {
+            '1': 'Me diga seu nome completo e a vaga que está participando'
+        }, 
         rh_sou_funcionario: {
             '1': 'rh_solicitar_holerite',
             '2': 'rh_banco_horas',

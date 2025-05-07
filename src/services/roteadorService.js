@@ -2,25 +2,33 @@ const fluxo = require('../utils/fluxoEtapas');
 const mensagens = require('../utils/mensagensSistema');
 const conversaService = require('./conversaService');
 const menus = require('../utils/menus');
+const actionHandlers = require('../utils/actionHandlers');
 
-
-exports.avaliar = async (etapaAtual, mensagem, conversa) => {
+exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
   let opcoes = fluxo.rotas[etapaAtual] || fluxo[etapaAtual];
   const proximaEtapa = opcoes?.[mensagem.trim()];
+
+  // Executa ação se houver handler definido, mas NÃO retorna ainda
+  if (actionHandlers[etapaAtual]?.[mensagem]) {
+    await actionHandlers[etapaAtual][mensagem](telefone);
+  }
 
   if (proximaEtapa) {
     await conversaService.atualizarEtapa(conversa.id, proximaEtapa);
 
-    // Busca menu correspondente à próxima etapa, se existir
     const menuKey = proximaEtapa.replace(/_menu$/, 'Menu');
     if (menus[proximaEtapa]) {
-      return menus[proximaEtapa];
+      return { tipo: 'menu', menu: menus[proximaEtapa] };
     }
     if (menus[menuKey]) {
-      return menus[menuKey];
+      return { tipo: 'menu', menu: menus[menuKey] };
     }
-    return null; // Não há menu, controller envia mensagem padrão
   }
 
-  return null; // Opção inválida, controller envia mensagem padrão
+  // Caso haja handler, mas nenhuma etapa mapeada (resposta final por ex)
+  if (actionHandlers[etapaAtual]?.[mensagem]) {
+    return { tipo: 'acao' };
+  }
+
+  return null; // Nenhuma opção válida encontrada
 };
