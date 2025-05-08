@@ -35,6 +35,16 @@ O **Atendente Virtual CCIM** é uma API desenvolvida em Node.js com Express para
    ```
    O servidor será iniciado na porta 3000 por padrão.
 
+## 🔑 Variáveis de Ambiente
+
+O sistema utiliza variáveis de ambiente para configurar a integração com a Evolution API. Você pode definir essas variáveis em um arquivo `.env` na raiz do projeto ou diretamente no ambiente de execução:
+
+- `EVOLUTION_API_URL` - URL base da API Evolution (exemplo: `http://172.26.0.4:8080`)
+- `EVOLUTION_API_KEY` - Chave de API para autenticação
+- `EVOLUTION_INSTANCE_NAME` - Nome da instância configurada na Evolution
+
+Se não definidas, valores padrão serão utilizados conforme o código fonte.
+
 ## Uso
 
 Configure seu provedor de WhatsApp para enviar webhooks para o endpoint:

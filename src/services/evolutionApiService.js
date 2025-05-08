@@ -1,9 +1,9 @@
-const axios = require('axios');
-const menus = require('../utils/menus'); 
+require('dotenv').config();
 
-const API_URL = process.env.EVOLUTION_API_URL || 'http://172.26.0.4:8080';
-const API_KEY = process.env.EVOLUTION_API_KEY || 'E5D987D920E2-4663-91C5-BD4AF0965CED';
-const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME || 'Desenvolvimento';
+
+const API_URL = process.env.EVOLUTION_API_URL 
+const API_KEY = process.env.EVOLUTION_API_KEY 
+const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME 
 
 /**
  * Envia mensagem de texto simples 
