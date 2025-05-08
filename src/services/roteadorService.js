@@ -1,4 +1,5 @@
 const fluxo = require('../utils/fluxoEtapas');
+const etapasDeEncaminhamentoDireto = fluxo.etapasDeEncaminhamentoDireto;
 const conversaService = require('./conversaService');
 const menus = require('../utils/menus');
 const actionHandlers = require('../utils/actionHandlers');
@@ -24,12 +25,17 @@ exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
     await conversaService.atualizarEtapa(conversa.id, proximaEtapa);
     await etapaService.registrarEtapa(conversa.id, proximaEtapa);
 
-    // Redireciona para coleta_dafos se for wildcard
+    // Encaminhamento direto: se etapa está na lista, transfere já
+    if (etapasDeEncaminhamentoDireto.includes(proximaEtapa)) {
+      await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
+      await transferenciaService.transferirParaHumano(telefone, conversa.id, '5544988587535');
+      return { tipo: 'transferido_finalizado' };
+    }
+
+    // Se for coleta de dados, pula para a lógica abaixo
     if (proximaEtapa === 'coleta_dados') {
-      // Isso força execução da lógica abaixo (sem return)
       etapaAtual = 'coleta_dados';
     } else {
-      // Exibe menu, se houver
       const menuKey = proximaEtapa.replace(/_menu$/, 'Menu');
       if (menus[proximaEtapa]) {
         return { tipo: 'menu', menu: menus[proximaEtapa] };
@@ -40,7 +46,7 @@ exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
     }
   }
 
-  // Lógica de coleta e transferência
+  // Lógica de coleta e posterior transferência
   if (etapaAtual === 'coleta_dados') {
     await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
     await transferenciaService.transferirParaHumano(telefone, conversa.id, '5544988587535');

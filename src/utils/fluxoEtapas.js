@@ -1,4 +1,61 @@
 module.exports = {
+    etapasDeEncaminhamentoDireto: [
+        'rh_outros_assuntos',
+        'matriculas_infantil_agendar_visita',
+        'matriculas_infantil_solicitar_video',
+        'matriculas_infantil_solicitar_mais_informacoes',
+        'matriculas_anos_iniciais_agendar_visita',
+        'matriculas_anos_iniciais_solicitar_mais_informacoes',
+        'matriculas_anos_finais_agendar_visita',
+        'matriculas_anos_finais_solicitar_mais_informacoes',
+        'matriculas_ensino_medio_agendar_visita',
+        'matriculas_ensino_medio_solicitar_mais_informacoes',
+        'coordenacao_zona5_calendario',
+        'coordenacao_zona5_horario_aula',
+        'coordenacao_zona5_cronograma',
+        'coordenacao_zona5_horario_alimentacao',
+        'coordenacao_zona5_senha',
+        'coordenacao_zona5_eventos',
+        'coordenacao_zona5_cronograma_extras',
+        'coordenacao_santos_dumount_calendario',
+        'coordenacao_santos_dumount_horario_aula',
+        'coordenacao_santos_dumount_cronograma',
+        'coordenacao_santos_dumount_horario_alimentacao',
+        'coordenacao_santos_dumount_senha',
+        'coordenacao_santos_dumount_eventos',
+        'coordenacao_santos_dumount_cronograma_extras',
+        'coordenacao_anos_iniciais_calendario',
+        'coordenacao_anos_iniciais_horario_aula',
+        'coordenacao_anos_iniciais_cronograma',
+        'coordenacao_anos_iniciais_recuperacao',
+        'coordenacao_anos_segunda_chamada',
+        'coordenacao_anos_iniciais_eventos',
+        'coordenacao_anos_iniciais_passeios_exeternos',
+        'coordenacao_anos_iniciais_outros_assuntos',
+
+        'coordenacao_anos_finais_calendario',
+        'coordenacao_anos_finais_horario_aula',
+        'coordenacao_anos_finais_cronograma',
+        'coordenacao_anos_finais_recuperacao',
+        'coordenacao_anos_finais_segunda_chamada',
+        'coordenacao_anos_finais_eventos',
+        'coordenacao_anos_finais_passeios_exeternos',
+        'coordenacao_anos_finais_outros_assuntos',
+
+        'coordenacao_ensino_medio_calendario',
+        'coordenacao_ensino_medio_horario_aula',
+        'coordenacao_ensino_medio_cronograma',
+        'coordenacao_ensino_medio_recuperacao',
+        'coordenacao_ensino_medio_segunda_chamada',
+        'coordenacao_ensino_medio_notas_parciais', 
+        'coordenacao_ensino_medio_agendamentos',
+        'coordenacao_ensino_medio_boletim',
+        'coordenacao_ensino_medio_outros_assuntos',
+
+        'coordenacao_ensino_medio_cursinho_matricula',
+        'coordenacao_ensino_medio_cursinho_informacoes',
+        
+      ],
     rotas: {
         menu_principal: {
             '1': 'matriculas_menu',
@@ -16,24 +73,24 @@ module.exports = {
         '4': 'matriculas_ensino_medio',
     },
         matriculas_infantil: {
-            '1': 'Agendar visita',
-            '2': 'Solicitar vídeo institucional',
-            '3': 'Solicitar mais informações'
+            '1': 'matriculas_infantil_agendar_visita',
+            '2': 'matriculas_infantil_solicitar_video',
+            '3': 'matriculas_infantil_solicitar_mais_informacoes'
         },
 
         matriculas_anos_iniciais: {
-            '1': 'Agendar visita',
-            '2': 'Solicitar mais informações'
+            '1': 'matriculas_anos_iniciais_agendar_visita',
+            '2': 'matriculas_anos_iniciais_solicitar_mais_informacoes'
         },
 
         matriculas_anos_finais: {
-            '1': 'Agendar visita',
-            '2': 'Solicitar mais informações'
+            '1': 'matriculas_anos_finais_agendar_visita',
+            '2': 'matriculas_anos_finais_solicitar_mais_informacoes'
         },
 
         matriculas_ensino_medio: {
-            '1': 'Agendar visita',
-            '2': 'Solicitar mais informações'
+            '1': 'matriculas_ensino_medio_agendar_visita',
+            '2': 'matriculas_ensino_medio_solicitar_mais_informacoes'
         },
 
     coordenacao_menu: {
@@ -194,5 +251,4 @@ module.exports = {
         rh_relogio_ponto: {
             '*': 'coleta_dados'
         },
-        coleta_dados: {},
 };

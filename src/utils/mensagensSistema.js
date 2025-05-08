@@ -31,7 +31,7 @@ module.exports = {
       rhSouFuncionarioMenu: `Escolha uma das opções abaixo:\n1️⃣ Solicitar Holerite\n2️⃣ Banco de horas\n3️⃣ Defeito no relógio ponto\n4️⃣ Outros assuntos`,
 
     //Fluxo etapas
-    nomeCompletoAluno: `Me diga qual o nome completo e turma do aluno, por gentileza.`,
+    nomeCompletoAluno: `Por gentileza, informe o nome completo e a turma do aluno em uma única mensagem.`,
     nomeCompleto: `Me diga seu nome completo, por gentileza.`,
     nomeCompletoVaga: `Me diga seu nome completo e a vaga que está participando, por gentileza.`,
     duvida: `Qual a sua dúvida?`,
