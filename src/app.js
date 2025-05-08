@@ -1,5 +1,6 @@
 const express = require('express');
 const webhookRoutes = require('./routes/webhookRoutes');
+require('./config/inatividadeJob')(); 
 
 const app = express();
 app.use(express.json()); // Middleware para analisar o corpo da requisição como JSON

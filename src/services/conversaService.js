@@ -38,6 +38,10 @@ exports.atualizarEtapa = async (conversaId, novaEtapa) => {
   return rows;
 };
 
+exports.atualizarUltimaInteracao = async (conversaId) => {
+  await db.query('UPDATE conversas SET ultima_interacao = NOW() WHERE id = ?', [conversaId]);
+};
+
 exports.finalizarConversa = async (conversaId) => {
   const [rows] = await db.query(
     'UPDATE conversas SET fim_em = NOW() WHERE id = ?',

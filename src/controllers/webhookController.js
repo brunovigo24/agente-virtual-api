@@ -36,6 +36,7 @@ exports.handleWebhook = async (req, res) => {
       // Cria nova conversa
       conversa = await conversaService.criar(cliente);
       await mensagemService.registrarEntrada(conversa.id, mensagem);
+      await conversaService.atualizarUltimaInteracao(conversa.id);
       await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas);
       await evolutionApiService.enviarLista(telefone, menus.menu_principal);
       return res.json({ status: 'menu enviado' });
@@ -51,14 +52,16 @@ exports.handleWebhook = async (req, res) => {
       const resultadoRoteador = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa, telefone);
       if (resultadoRoteador?.tipo === 'menu') {
         await evolutionApiService.enviarLista(telefone, resultadoRoteador.menu);
+        await conversaService.atualizarUltimaInteracao(conversa.id);
       } else if (resultadoRoteador?.tipo === 'acao') {
+        await conversaService.atualizarUltimaInteracao(conversa.id);
         // ação já executada pelo roteador
       } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
         await conversaService.finalizarConversa(conversa.id);
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
-      } 
-      else {
+      } else {
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
+        await conversaService.atualizarUltimaInteracao(conversa.id);
       }
     }
 
