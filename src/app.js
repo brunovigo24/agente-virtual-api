@@ -8,4 +8,8 @@ app.use(express.json()); // Middleware para analisar o corpo da requisição com
 
 app.use('/webhook', webhookRoutes);
 
+app.get('/status', (req, res) => {
+  res.json({ status: 'ok', message: 'API atendente-virtual-ccim está online' });
+});
+
 module.exports = app;
