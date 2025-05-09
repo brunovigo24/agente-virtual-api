@@ -45,6 +45,21 @@ O sistema utiliza variáveis de ambiente para configurar a integração com a Ev
 
 Se não definidas, valores padrão serão utilizados conforme o código fonte.
 
+### 🗄️ Banco de Dados
+
+O sistema utiliza MySQL com as seguintes tabelas principais:
+- `clientes` - Armazena informações dos clientes
+- `conversas` - Registro das conversas ativas
+- `mensagens` - Histórico de mensagens
+- `etapas` - Controle do fluxo de navegação
+
+### 🤖 Integração Evolution API
+
+O sistema integra com a Evolution API para:
+- Envio de mensagens de texto
+- Envio de listas interativas
+- Gerenciamento de instâncias WhatsApp
+
 ## Uso
 
 Configure seu provedor de WhatsApp para enviar webhooks para o endpoint:

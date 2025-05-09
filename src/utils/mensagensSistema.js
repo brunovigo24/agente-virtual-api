@@ -38,7 +38,7 @@ module.exports = {
 
     atendimentoEncerradoInatividade: `⏳ Seu atendimento foi encerrado por inatividade. \n\nCaso ainda precise de ajuda, mande uma nova mensagem.`,
     usuarioEncerrouAtendimento: `Atendimento encerrado. Se precisar de mais alguma coisa, é só chamar!`,
-    atendimentoEncerrado: `Seu atendimento foi encaminhado para um atendente humano. \n\nAguarde, por favor, que em breve alguém irá te atender. \n\n*Obrigado por entrar em contato com a CCIM.*`,
+    atendimentoEncerrado: `Seu atendimento foi direcionado para um de nossos atendentes. \n\nPor favor, aguarde um instante — em breve, alguém da equipe CCIM vai continuar o atendimento com você. *Obrigado por entrar em contato!*`,
 
     opcaoInvalida: `Desculpe, não entendi sua resposta. Por favor, selecione uma opção do menu.`,
     mensagemPadrao: `Estamos te redirecionando para o atendimento humano...`,

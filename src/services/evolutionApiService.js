@@ -1,6 +1,3 @@
-require('dotenv').config();
-
-
 const API_URL = process.env.EVOLUTION_API_URL 
 const API_KEY = process.env.EVOLUTION_API_KEY 
 const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME 
