@@ -8,6 +8,31 @@ const transferenciaService = require('./transferenciaService');
 const destinosTransferencia = require('../utils/destinosTransferencia'); // novo arquivo com mapeamento
 
 exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
+  // Lógica de voltar etapa
+  if (mensagem.trim() === '#' || mensagem.toLowerCase() === 'voltar') {
+    const etapas = await etapaService.getEtapas(conversa.id);
+    const caminho = Object.values(etapas).filter(e => e && typeof e === 'string');
+
+    if (caminho.length >= 2) {
+      const etapaAnterior = caminho[caminho.length - 2];
+
+      await conversaService.atualizarEtapa(conversa.id, etapaAnterior);
+      await etapaService.removerUltimaEtapa(conversa.id);
+
+      const menuKey = etapaAnterior.replace(/_menu$/, 'Menu');
+      if (menus[etapaAnterior]) {
+        return { tipo: 'menu', menu: menus[etapaAnterior] };
+      }
+      if (menus[menuKey]) {
+        return { tipo: 'menu', menu: menus[menuKey] };
+      }
+
+      return { tipo: 'etapa_atualizada' };
+    }
+
+    return { tipo: 'erro', mensagem: 'Você já está no início do atendimento.' };
+  }
+
   let opcoes = fluxo.rotas[etapaAtual] || fluxo[etapaAtual];
 
   // Busca etapa exata ou wildcard "*"

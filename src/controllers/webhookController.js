@@ -59,6 +59,12 @@ exports.handleWebhook = async (req, res) => {
       } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
         await conversaService.finalizarConversa(conversa.id);
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+      } else if (resultadoRoteador?.tipo === 'etapa_atualizada') {
+        // Apenas atualiza a interação, sem enviar menu (caso queira, pode enviar mensagem personalizada)
+        await conversaService.atualizarUltimaInteracao(conversa.id);
+      } else if (resultadoRoteador?.tipo === 'erro') {
+        await evolutionApiService.enviarMensagem(telefone, resultadoRoteador.mensagem || mensagensSistema.opcaoInvalida);
+        await conversaService.atualizarUltimaInteracao(conversa.id);
       } else {
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
         await conversaService.atualizarUltimaInteracao(conversa.id);

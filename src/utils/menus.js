@@ -20,7 +20,8 @@ module.exports = {
         { id: '1', titulo: 'Educação Infantil' },
         { id: '2', titulo: 'Anos Iniciais' },
         { id: '3', titulo: 'Anos Finais' },
-        { id: '4', titulo: 'Ensino Médio' }
+        { id: '4', titulo: 'Ensino Médio' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_menu: {
@@ -31,7 +32,8 @@ module.exports = {
         { id: '2', titulo: 'Educação Infantil Santos Dumount' },
         { id: '3', titulo: 'Anos Iniciais' },
         { id: '4', titulo: 'Anos Finais' },
-        { id: '5', titulo: 'Ensino médio' }
+        { id: '5', titulo: 'Ensino médio' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_infantil_zona5: {
@@ -44,7 +46,8 @@ module.exports = {
         { id: '4', titulo: 'Horário de alimentação' },
         { id: '5', titulo: 'Senha de acesso do app da Perto' },
         { id: '6', titulo: 'Eventos' },
-        { id: '7', titulo: 'Cronograma de aulas extras' }
+        { id: '7', titulo: 'Cronograma de aulas extras' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_infantil_santos_dumount: {
@@ -57,7 +60,8 @@ module.exports = {
         { id: '4', titulo: 'Horário de alimentação' },
         { id: '5', titulo: 'Senha de acesso do app da Perto' },
         { id: '6', titulo: 'Eventos' },
-        { id: '7', titulo: 'Cronograma de aulas extras' }
+        { id: '7', titulo: 'Cronograma de aulas extras' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_anos_iniciais: {
@@ -71,7 +75,8 @@ module.exports = {
         { id: '5', titulo: '2° Chamada' },
         { id: '6', titulo: 'Eventos' },
         { id: '7', titulo: 'Passeios externos' },
-        { id: '8', titulo: 'Outros assuntos' }
+        { id: '8', titulo: 'Outros assuntos' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_anos_finais: {
@@ -85,7 +90,8 @@ module.exports = {
         { id: '5', titulo: '2° Chamada' },
         { id: '6', titulo: 'Eventos' },
         { id: '7', titulo: 'Passeios externos' },
-        { id: '8', titulo: 'Outros assuntos' }
+        { id: '8', titulo: 'Outros assuntos' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_ensino_medio: {
@@ -101,7 +107,8 @@ module.exports = {
         { id: '7', titulo: 'Agendamentos Coordenação/Professores' },
         { id: '8', titulo: 'Boletim Trimestral ' },
         { id: '9', titulo: 'Cursinho' },
-        { id: '10', titulo: 'Outros assuntos' }
+        { id: '10', titulo: 'Outros assuntos' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     coordenacao_ensino_medio_cursinho: {
@@ -110,6 +117,7 @@ module.exports = {
       opcoes: [
         { id: '1', titulo: 'Quero me matricular' },
         { id: '2', titulo: 'Informações' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     financeiro_menu: {
@@ -120,7 +128,8 @@ module.exports = {
         { id: '2', titulo: 'Negociar valores em aberto' },
         { id: '3', titulo: 'Solicitar cópia de contrato' },
         { id: '4', titulo: 'Declaração de IRRF 2024' },
-        { id: '5', titulo: 'Cancelamentos' }
+        { id: '5', titulo: 'Cancelamentos' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     financeiro_cancelamentos: {
@@ -129,7 +138,8 @@ module.exports = {
       opcoes: [
         { id: '1', titulo: 'Período integral' },
         { id: '2', titulo: 'Matrícula total' },
-        { id: '3', titulo: 'Extras curriculares' }
+        { id: '3', titulo: 'Extras curriculares' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     financeiro_cancelamentos_extras_curriculares: {
@@ -139,6 +149,7 @@ module.exports = {
         { id: '1', titulo: 'Basquete' },
         { id: '2', titulo: 'Futsal' },
         { id: '3', titulo: 'Vôlei' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
 
@@ -148,7 +159,8 @@ module.exports = {
       opcoes: [
         { id: '1', titulo: 'Declaração de mátricula' },
         { id: '2', titulo: 'Transferência' },
-        { id: '3', titulo: 'Histórico Escolar' }
+        { id: '3', titulo: 'Histórico Escolar' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     documentacao_transferencia: {
@@ -156,7 +168,8 @@ module.exports = {
       descricao: mensagensSistema.documentacaoTransferenciaMenu,
       opcoes: [
         { id: '1', titulo: 'Solicitar 1ª via' },
-        { id: '2', titulo: 'Solicitar 2ª via' }
+        { id: '2', titulo: 'Solicitar 2ª via' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     documentacao_historico_escolar: {
@@ -164,7 +177,8 @@ module.exports = {
       descricao: mensagensSistema.documentacaoHistoricoEscolarMenu,
       opcoes: [
         { id: '1', titulo: 'Solicitar 1ª via' },
-        { id: '2', titulo: 'Solicitar 2ª via' }
+        { id: '2', titulo: 'Solicitar 2ª via' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
 
@@ -174,7 +188,8 @@ module.exports = {
       opcoes: [
         { id: '1', titulo: 'Quero enviar meu currículo' },
         { id: '2', titulo: 'Status de processo seletivo' },
-        { id: '3', titulo: 'Já sou funcionário' }
+        { id: '3', titulo: 'Já sou funcionário' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     rh_sou_funcionario: {
@@ -184,7 +199,8 @@ module.exports = {
         { id: '1', titulo: 'Solicitar Holerite' },
         { id: '2', titulo: 'Banco de horas' },
         { id: '3', titulo: 'Defeito no relógio ponto' },
-        { id: '4', titulo: 'Outros assuntos' }
+        { id: '4', titulo: 'Outros assuntos' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     matriculas_infantil: {
@@ -193,7 +209,8 @@ module.exports = {
       opcoes: [
         { id: '1', titulo: 'Agendar visita' },
         { id: '2', titulo: 'Solicitar vídeo institucional' },
-        { id: '3', titulo: 'Solicitar mais informações' }
+        { id: '3', titulo: 'Solicitar mais informações' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     matriculas_anos_iniciais: {
@@ -201,7 +218,8 @@ module.exports = {
       descricao: mensagensSistema.matriculasAnosIniciaisMenu,
       opcoes: [
         { id: '1', titulo: 'Agendar visita' },
-        { id: '2', titulo: 'Solicitar mais informações' }
+        { id: '2', titulo: 'Solicitar mais informações' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     matriculas_anos_finais: {
@@ -209,7 +227,8 @@ module.exports = {
       descricao: mensagensSistema.matriculasAnosFinaisMenu,
       opcoes: [
         { id: '1', titulo: 'Agendar visita' },
-        { id: '2', titulo: 'Solicitar mais informações' }
+        { id: '2', titulo: 'Solicitar mais informações' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     },
     matriculas_ensino_medio: {
@@ -217,7 +236,8 @@ module.exports = {
       descricao: mensagensSistema.matriculasEnsinoMedioMenu,
       opcoes: [
         { id: '1', titulo: 'Agendar visita' },
-        { id: '2', titulo: 'Solicitar mais informações' }
+        { id: '2', titulo: 'Solicitar mais informações' },
+        { id: '#', titulo: '↩️ Voltar' }
       ]
     }
 };
