@@ -29,8 +29,17 @@ exports.avaliar = async (etapaAtual, mensagem, conversa, telefone) => {
     // Encaminhamento direto: se etapa está na lista, transfere já
     if (etapasDeEncaminhamentoDireto.includes(proximaEtapa)) {
       const etapas = await etapaService.getEtapas(conversa.id);
-      const menuPrincipal = etapas?.etapa_1;
-      const numeroDestino = destinosTransferencia[menuPrincipal] || '5544988587535';
+      let menuPrincipal = etapas?.etapa_1;
+      let numeroDestino;
+
+      if (menuPrincipal === 'coordenacao_menu') {
+        // Se for coordenacao_menu, usa etapa_2 para o destino pois é o único que vários telefones para o mesmo menu
+        // Exemplo: coordenacao_menu -> coordenacao_infantil_zona5
+        const subCoordenacao = etapas?.etapa_2;
+        numeroDestino = destinosTransferencia[subCoordenacao] || '5544988587535';
+      } else {
+        numeroDestino = destinosTransferencia[menuPrincipal] || '5544988587535';
+      }
 
       await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
       await transferenciaService.transferirParaHumano(telefone, conversa.id, numeroDestino);
