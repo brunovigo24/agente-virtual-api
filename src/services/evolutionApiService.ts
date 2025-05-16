@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const API_URL = process.env.EVOLUTION_API_URL;
 const API_KEY = process.env.EVOLUTION_API_KEY;
 const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME;
@@ -14,27 +16,31 @@ export async function enviarMensagem(telefone: string, texto: string): Promise<a
     text: texto
   };
 
-  const options = {
-    method: 'POST',
-    headers: {
-      apikey: API_KEY as string,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  };
+  // Adicione este log para depuração
+  console.log('Enviando para Evolution:', {
+    endpoint: `${API_URL}/message/sendText/${INSTANCE_NAME}`,
+    payload
+  });
 
   try {
-    const fetch = (...args: [any, any?]) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-    const response = await fetch(`${API_URL}/message/sendText/${INSTANCE_NAME}`, options);
-    const data = await response.json();
-    console.log('Mensagem enviada:', response.status, data);
-    if (!response.ok) {
-      throw new Error(`Erro ao enviar mensagem: ${response.status} - ${JSON.stringify(data)}`);
-    }
-    return data;
+    const response = await axios.post(
+      `${API_URL}/message/sendText/${INSTANCE_NAME}`,
+      payload,
+      {
+        headers: {
+          apikey: API_KEY as string,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    console.log('Mensagem enviada:', response.status, response.data);
+    return response.data;
   } catch (error: any) {
     console.error('Erro ao enviar mensagem:', {
-      message: error.message
+      message: error.message,
+      response: error.response?.data, // Adicione esta linha para ver o erro detalhado da API
+      status: error.response?.status,
+      payload
     });
     throw error;
   }
@@ -74,24 +80,19 @@ export async function enviarLista(
     delay: 1000
   };
 
-  const options = {
-    method: 'POST',
-    headers: {
-      apikey: API_KEY as string,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  };
-
   try {
-    const fetch = (...args: [any, any?]) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-    const response = await fetch(`${API_URL}/message/sendList/${INSTANCE_NAME}`, options);
-    const data = await response.json();
-    console.log('Lista enviada:', response.status, data);
-    if (!response.ok) {
-      throw new Error(`Erro ao enviar lista: ${response.status} - ${JSON.stringify(data)}`);
-    }
-    return data;
+    const response = await axios.post(
+      `${API_URL}/message/sendList/${INSTANCE_NAME}`,
+      payload,
+      {
+        headers: {
+          apikey: API_KEY as string,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    console.log('Lista enviada:', response.status, response.data);
+    return response.data;
   } catch (error: any) {
     console.error('Erro ao enviar lista:', {
       message: error.message

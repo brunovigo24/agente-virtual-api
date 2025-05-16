@@ -4,7 +4,7 @@ import { fluxoEtapas } from '../utils/fluxoEtapas';
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
-import * as menus from '../utils/menu';
+import * as menus from '../utils/menus';
 import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
 import * as destinosTransferencia from '../utils/destinosTransferencia';

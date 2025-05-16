@@ -1,8 +1,11 @@
 import { Router } from 'express';
-//import webhookController from '../controllers/webhookController';
+import { handleWebhook } from '../controllers/webhookController';
 
 const router = Router();
 
-//router.post('/whatsapp', webhookController.handleWebhook);
+// Wrap async handler to properly handle promises
+router.post('/whatsapp', (req, res, next) => {
+  Promise.resolve(handleWebhook(req, res)).catch(next);
+});
 
 export default router;

@@ -4,7 +4,7 @@ import * as conversaService from '../services/conversaService';
 import * as mensagemService from '../services/mensagemService';
 import * as roteadorService from '../services/roteadorService';
 import * as evolutionApiService from '../services/evolutionApiService';
-import * as menus from '../utils/menu';
+import * as menus from '../utils/menus';
 import { mensagensSistema } from '../utils/mensagensSistema';
 
 // Ajuste de tipos para os dados recebidos do webhook
@@ -107,9 +107,9 @@ export const handleWebhook = async (req: Request, res: Response) => {
       }
     }
 
-    res.json({ status: 'ok' });
+    return res.json({ status: 'ok' });
   } catch (err: any) {
     console.error('[Webhook] Erro:', err);
-    res.status(500).json({ error: 'Erro ao processar mensagem' });
+    return res.status(500).json({ error: 'Erro ao processar mensagem' });
   }
 };
