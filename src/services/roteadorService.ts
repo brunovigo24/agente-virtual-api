@@ -1,5 +1,4 @@
 import { Conversa } from '../interfaces/Conversa';
-import { Cliente } from '../interfaces/Cliente';
 import { fluxoEtapas } from '../utils/fluxoEtapas';
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 import * as conversaService from './conversaService';
