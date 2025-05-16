@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
+import { Router, Request, Response } from 'express';
 
-router.get('/', (req, res) => {
+const router = Router();
+
+router.get('/', (req: Request, res: Response) => {
   // Usa Intl.DateTimeFormat para garantir o timezone de Brasília
   const now = new Date();
   const formatter = new Intl.DateTimeFormat('pt-BR', {
@@ -27,4 +28,4 @@ router.get('/', (req, res) => {
   `);
 });
 
-module.exports = router;
+export default router;

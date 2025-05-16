@@ -1,4 +1,4 @@
-module.exports = {
+export const destinosTransferencia = {
     matriculas_menu: '5544988587535',
 
     coordenacao_infantil_zona5: '5544988587535',

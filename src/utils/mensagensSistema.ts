@@ -1,4 +1,4 @@
-module.exports = {
+export const mensagensSistema = {
     boasVindas: `Meu nome é *Aurora*, sou a *assistente virtual da CCIM.* Muito prazer!\n\n*Obrigada por entrar em contato com a CCIM.* 🔸
     \n\nPara os demais serviços, estamos disponíveis no teleatendimento 📞 0800 111 0111, no app 📲 CCIM Mobile e no site 🖥️ www.`,
     menuPrincipal: `Sobre o que você quer falar ?\n🏫 Matrículas\n🎓 Coordenação\n💰 Financeiro\n📄 Documentação\n👨‍💼 Recursos Humanos\n👋 Encerrar atendimento`,  

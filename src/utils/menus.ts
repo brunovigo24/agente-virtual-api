@@ -1,4 +1,4 @@
-const mensagensSistema = require('../utils/mensagensSistema'); 
+import { mensagensSistema } from './mensagensSistema';
 
 module.exports = {
     menu_principal: {
