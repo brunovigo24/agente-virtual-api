@@ -1,6 +1,5 @@
 import { Conversa } from '../interfaces/Conversa';
-import { fluxoEtapas } from '../utils/fluxoEtapas';
-const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
+//import { fluxoEtapas } from '../utils/fluxoEtapas';
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
 // import * as menus from '../utils/menus';
@@ -8,6 +7,8 @@ import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
 //import * as destinosTransferencia from '../utils/destinosTransferencia';
 import { lerJson } from '../utils/jsonLoader';
+const fluxoEtapas = lerJson('fluxoEtapas.json');
+const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 
 interface AvaliarResultado {
   tipo: 'menu' | 'acao' | 'transferido_finalizado' | 'etapa_atualizada' | 'erro';

@@ -1,7 +1,7 @@
 {
   "menu_principal": {
     "titulo": "Menu Principal",
-    "descricao": "Escolha uma das opções abaixo:\n📝 Matrículas\n📘 Coordenação\n💰 Financeiro\n📄 Documentação\n👥 Recursos Humanos",
+    "descricao": "Escolha uma das opções abaixo:\n📝 Matrículas\n📘 Coordenação\n💰 Financeiro\n📄 Documentação\n👥 Recursos Humanos\n👋 Encerrar atendimento",
     "opcoes": [
       { "id": "1", "titulo": "Matrículas" },
       { "id": "2", "titulo": "Coordenação" },
@@ -120,7 +120,7 @@
   },
   "financeiro_menu": {
     "titulo": "Financeiro",
-    "descricao": "Escolha uma das opções abaixo:\n1️⃣ 2ª Via de Boleto\n2️⃣ Negociar valores em aberto\n3️⃣ Solicitar cópia de contrato\n4️⃣ Declaração de IRRF 2024\n5️⃣ Cancelamentos\n↩️ VoltarfinanceiroMenu",
+    "descricao": "Escolha uma das opções abaixo:\n1️⃣ 2ª Via de Boleto\n2️⃣ Negociar valores em aberto\n3️⃣ Solicitar cópia de contrato\n4️⃣ Declaração de IRRF 2024\n5️⃣ Cancelamentos\n↩️ Voltar",
     "opcoes": [
       { "id": "1", "titulo": "2ª Via de Boleto" },
       { "id": "2", "titulo": "Negociar valores em aberto" },
@@ -190,7 +190,7 @@
   },
   "rh_sou_funcionario": {
     "titulo": "Já sou funcionário",
-    "descricao": "Escolha uma das opções abaixo:\n1️⃣ Solicitar Holerite\n2️⃣ Banco de horas\n3️⃣ Defeito no relógio ponto\n4️⃣ Outros assuntos",
+    "descricao": "Escolha uma das opções abaixo:\n1️⃣ Solicitar Holerite\n2️⃣ Banco de horas\n3️⃣ Defeito no relógio ponto\n4️⃣ Outros assuntos\n↩️ Voltar",
     "opcoes": [
       { "id": "1", "titulo": "Solicitar Holerite" },
       { "id": "2", "titulo": "Banco de horas" },
