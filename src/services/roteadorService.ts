@@ -3,7 +3,7 @@ import { fluxoEtapas } from '../utils/fluxoEtapas';
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
-import * as menus from '../utils/menus';
+// import * as menus from '../utils/menus';
 import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
 //import * as destinosTransferencia from '../utils/destinosTransferencia';
@@ -33,6 +33,8 @@ export const avaliar = async (
       await etapaService.removerUltimaEtapa(conversa.id);
 
       const menuKey = (etapaAnterior as string).replace(/_menu$/, 'Menu');
+      const menus = lerJson('menus.json');
+
       if ((menus as any)[etapaAnterior]) {
         return { tipo: 'menu', menu: (menus as any)[etapaAnterior] };
       }
@@ -93,6 +95,8 @@ export const avaliar = async (
       etapaAtual = 'coleta_dados';
     } else {
       const menuKey = (proximaEtapa as string).replace(/_menu$/, 'Menu');
+      const menus = lerJson('menus.json');
+
       if ((menus as any)[proximaEtapa]) {
         return { tipo: 'menu', menu: (menus as any)[proximaEtapa] };
       }
