@@ -1,4 +1,6 @@
-import { mensagensSistema } from './mensagensSistema';
+//import mensagensSistema from './mensagensSistema';
+import { lerJson } from '../utils/jsonLoader';
+const mensagensSistema = lerJson('mensagensSistema.json');
 
 module.exports = {
     menu_principal: {

@@ -5,7 +5,7 @@ import * as mensagemService from '../services/mensagemService';
 import * as roteadorService from '../services/roteadorService';
 import * as evolutionApiService from '../services/evolutionApiService';
 import * as menus from '../utils/menus';
-import { mensagensSistema } from '../utils/mensagensSistema';
+import { lerJson } from '../utils/jsonLoader';
 
 // Ajuste de tipos para os dados recebidos do webhook
 interface WebhookDados {
@@ -70,6 +70,8 @@ export const handleWebhook = async (req: Request, res: Response) => {
       return res.status(500).json({ error: 'Falha ao criar ou recuperar conversa' });
     }
 
+    const mensagensSistema = lerJson('mensagensSistema.json');
+    
     if (primeiraInteracao) {
       await mensagemService.registrarEntrada(conversa.id, mensagem);
       await conversaService.atualizarUltimaInteracao(conversa.id);
