@@ -60,7 +60,7 @@ O sistema integra com a Evolution API para:
 - Envio de listas interativas
 - Gerenciamento de instâncias WhatsApp
 
-## Uso
+## 📲 Uso
 
 Configure seu provedor de WhatsApp para enviar webhooks para o endpoint:
 ```
@@ -71,9 +71,109 @@ O corpo da requisição deve seguir o formato esperado pelo sistema.
 ## 📂 Estrutura do Projeto
 
 - `src/` - Código-fonte da aplicação
-- `src/routes/` - Rotas da API
+- `src/config/` - Configurações da aplicação 
 - `src/controllers/` - Lógica dos controladores
+- `src/data/` - Modelos e dados da aplicação
+- `src/interfaces/` - Interfaces e tipos TypeScript 
+- `src/routes/` - Rotas da API
 - `src/services/` - Serviços de negócio e integrações
+- `src/utils/` - Funções utilitárias e helpers
+
+
+## 🔁 Comunicação com a API
+🧠 Mensagens do Sistema
+- Listar mensagens:
+```
+GET /api/mensagens
+```
+Exemplo de retorno:
+```
+{
+  "boasVindas": "mensagem",
+  "menuPrincipal": "Sobre o que você quer falar ?\n🏫 Matrículas\n🎓 Coordenação\n💰 Financeiro\n📄 Documentação\n👨‍💼 Recursos Humanos\n👋 Encerrar atendimento"
+}
+```
+- Atualizar uma mensagem:
+```
+PUT /api/mensagens/:chave
+```
+Body (JSON):
+```
+{
+  "conteudo": "Nova mensagem personalizada"
+}
+```
+
+🗺️ Menus e Submenus
+- Listar menus:
+Exemplo de retorno:
+```
+{
+  "menu_principal": {
+    "titulo": "Menu Principal",
+    "descricao": "Escolha uma das opções abaixo:\n📝 Matrículas\n📘 Coordenação\n💰 Financeiro\n📄 Documentação\n👥 Recursos Humanos\n👋 Encerrar atendimento",
+    "opcoes": [
+      { "id": "1", "titulo": "Matrículas" },
+      { "id": "2", "titulo": "Coordenação" },
+      { "id": "3", "titulo": "Financeiro" },
+      { "id": "4", "titulo": "Documentação" },
+      { "id": "5", "titulo": "RH" },
+      { "id": "0", "titulo": "Encerrar atendimento" }
+    ]
+  }
+}
+```
+
+- Atualizar um menu:
+```
+PUT /api/menus/:id
+```
+Body (JSON):
+```
+{
+  "titulo": "Menu Principal",
+  "descricao": "Escolha uma das opções:",
+  "opcoes": [
+    { "id": "1", "titulo": "Matrículas" },
+    { "id": "2", "titulo": "RH" }
+  ]
+}
+```
+
+📍 Destinos
+- Listar destinos:
+```
+GET /api/destinos
+```
+- Atualizar número de redirecionamento:
+```
+PUT /api/destinos/:menu
+```
+Body (JSON):
+```
+{
+  "conteudo": "Novo número"
+}
+```
+
+🔄 Fluxo
+- Listar fluxos:
+```
+GET /api/fluxo
+```
+- Atualizar redirecionamentos de um fluxo:
+```
+PATCH /api/fluxo/:etapa
+```
+Body (JSON):
+```
+{
+  "1": "matriculas_infantil",
+  "2": "matriculas_anos_iniciais",
+  "3": "matriculas_anos_finais",
+  "4": "matriculas_ensino_medio"
+}
+```
 
 ---
 
