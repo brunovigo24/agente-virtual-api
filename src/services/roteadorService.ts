@@ -1,12 +1,14 @@
 import { Conversa } from '../interfaces/Conversa';
-import { fluxoEtapas } from '../utils/fluxoEtapas';
-const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
+//import { fluxoEtapas } from '../utils/fluxoEtapas';
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
-import * as menus from '../utils/menus';
+// import * as menus from '../utils/menus';
 import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
-import * as destinosTransferencia from '../utils/destinosTransferencia';
+//import * as destinosTransferencia from '../utils/destinosTransferencia';
+import { lerJson } from '../utils/jsonLoader';
+const fluxoEtapas = lerJson('fluxoEtapas.json');
+const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 
 interface AvaliarResultado {
   tipo: 'menu' | 'acao' | 'transferido_finalizado' | 'etapa_atualizada' | 'erro';
@@ -32,6 +34,8 @@ export const avaliar = async (
       await etapaService.removerUltimaEtapa(conversa.id);
 
       const menuKey = (etapaAnterior as string).replace(/_menu$/, 'Menu');
+      const menus = lerJson('menus.json');
+
       if ((menus as any)[etapaAnterior]) {
         return { tipo: 'menu', menu: (menus as any)[etapaAnterior] };
       }
@@ -63,20 +67,24 @@ export const avaliar = async (
     await conversaService.atualizarEtapa(conversa.id, proximaEtapa);
     await etapaService.registrarEtapa(conversa.id, proximaEtapa);
 
+    const destinosTransferencia = lerJson('destinosTransferencia.json');
+
+    console.log('destinosTransferencia:', destinosTransferencia);
     // Encaminhamento direto: se etapa está na lista, transfere já
     if (etapasDeEncaminhamentoDireto.includes(proximaEtapa)) {
       const etapas = await etapaService.getEtapas(conversa.id);
-      let menuPrincipal = (etapas as any)?.etapa_1;
-      let numeroDestino: string;
+      // etapa_1 sempre será 'menu_principal', então usamos etapa_2 ou etapa_3 conforme o caso
+      let chaveDestino: string;
 
-      if (menuPrincipal === 'coordenacao_menu') {
-        // Se for coordenacao_menu, usa etapa_2 para o destino pois é o único que vários telefones para o mesmo menu
-        // Exemplo: coordenacao_menu -> coordenacao_infantil_zona5
-        const subCoordenacao = (etapas as any)?.etapa_2;
-        numeroDestino = (destinosTransferencia as any)[subCoordenacao] || '5544988587535';
+      if ((etapas as any)?.etapa_2 === 'coordenacao_menu') {
+        chaveDestino = String((etapas as any)?.etapa_3 || '');
       } else {
-        numeroDestino = (destinosTransferencia as any)[menuPrincipal] || '5544988587535';
+        chaveDestino = String((etapas as any)?.etapa_2 || '');
       }
+
+      const numeroDestino = destinosTransferencia && chaveDestino && destinosTransferencia.hasOwnProperty(chaveDestino)
+        ? destinosTransferencia[chaveDestino]
+        : '5544988587535';
 
       await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
       await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
@@ -88,6 +96,8 @@ export const avaliar = async (
       etapaAtual = 'coleta_dados';
     } else {
       const menuKey = (proximaEtapa as string).replace(/_menu$/, 'Menu');
+      const menus = lerJson('menus.json');
+
       if ((menus as any)[proximaEtapa]) {
         return { tipo: 'menu', menu: (menus as any)[proximaEtapa] };
       }
@@ -99,9 +109,12 @@ export const avaliar = async (
 
   // Lógica de coleta e posterior transferência
   if (etapaAtual === 'coleta_dados') {
+    const destinosTransferencia = lerJson('destinosTransferencia.json');
     const etapas = await etapaService.getEtapas(conversa.id);
-    const menuPrincipal = (etapas as any)?.etapa_1;
-    const numeroDestino = (destinosTransferencia as any)[menuPrincipal] || '5544988587535';
+    const chaveDestino = String((etapas as any)?.etapa_2 || '');
+    const numeroDestino = destinosTransferencia && chaveDestino && destinosTransferencia.hasOwnProperty(chaveDestino)
+      ? destinosTransferencia[chaveDestino]
+      : '5544988587535';
 
     await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
     await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
