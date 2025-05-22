@@ -24,11 +24,18 @@ export const gerarQR = async (req: Request, res: Response) => {
   }
 };
 
-// export const gerarPairing = async (req: Request, res: Response) => {
-//   const nome = req.params.nome;
-//   const resultado = await evolutionManager.gerarPairingCode(nome);
-//   res.json(resultado);
-// };
+export const gerarPairing = async (req: Request, res: Response) => {
+  const { nome } = req.params;
+  try {
+    const resultado = await evolutionManager.gerarPairing(nome);
+    res.json(resultado);
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao gerar código de pareamento',
+      detalhes: error instanceof Error ? error.message : error,
+    });
+  }
+};
 
 // export const statusInstancia = async (req: Request, res: Response) => {
 //   const nome = req.params.nome;

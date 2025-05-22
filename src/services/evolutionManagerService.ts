@@ -70,3 +70,36 @@ export const gerarQR = async (instanceName: string) => {
 
   return data;
 };
+
+export const gerarPairing = async (instanceName: string) => {
+  const url = `${EVOLUTION_API_URL}/instance/connect/${instanceName}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json',
+    }
+  });
+
+  const data = await response.json();
+
+  console.log('🔍 Resposta da Evolution API:', JSON.stringify(data, null, 2));
+
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao gerar código de pareamento');
+  }
+
+  return {
+    instance: data.instance?.instanceName || null,
+    pairingCode: data.qrcode?.pairingCode || null,
+    status: data.instance?.status || null
+  };
+};
+//Evolution API está retornando 200 OK mas com body null, aguardar correção do problema
+//{
+//     "instance": null,
+//     "pairingCode": null,
+//     "status": null
+// }
+
