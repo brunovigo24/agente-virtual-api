@@ -103,3 +103,45 @@ export const gerarPairing = async (instanceName: string) => {
 //     "status": null
 // }
 
+export const statusInstancia = async (instanceName: string) => {
+  const url = `${EVOLUTION_API_URL}/instance/connectionState/${instanceName}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao obter status da instância');
+  }
+
+  return {
+    instance: instanceName,
+    status: data?.status || 'desconhecido'
+  };
+};
+
+export const fetchAllInstancias = async () => {
+  const url = `${EVOLUTION_API_URL}/instance/fetchInstances`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao buscar instâncias');
+  }
+
+  return data;
+};
