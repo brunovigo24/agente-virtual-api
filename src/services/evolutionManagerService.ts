@@ -165,3 +165,23 @@ export const deleteInstancia = async (instanceName: string) => {
 
   return data;
 };
+
+export const logoutInstancia = async (instanceName: string) => {
+  const url = `${EVOLUTION_API_URL}/instance/logout/${instanceName}`;
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao realizar logout da instância');
+  }
+
+  return data;
+};

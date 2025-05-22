@@ -11,7 +11,7 @@ export const criarInstancia = async (req: Request, res: Response) => {
   }
 };
 
-export const gerarQR = async (req: Request, res: Response) => {
+export const gerarQRPairing = async (req: Request, res: Response) => {
   const { nome } = req.params;
   try {
     const resultado = await evolutionManager.gerarQR(nome);
@@ -19,19 +19,6 @@ export const gerarQR = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       erro: 'Erro ao gerar QR Code',
-      detalhes: error instanceof Error ? error.message : error,
-    });
-  }
-};
-
-export const gerarPairing = async (req: Request, res: Response) => {
-  const { nome } = req.params;
-  try {
-    const resultado = await evolutionManager.gerarPairing(nome);
-    res.json(resultado);
-  } catch (error) {
-    res.status(500).json({
-      erro: 'Erro ao gerar código de pareamento',
       detalhes: error instanceof Error ? error.message : error,
     });
   }
@@ -71,6 +58,19 @@ export const deletarInstancia = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       erro: 'Erro ao deletar instância',
+      detalhes: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+export const logoutInstancia = async (req: Request, res: Response) => {
+  const { instance } = req.params;
+  try {
+    const resultado = await evolutionManager.logoutInstancia(instance);
+    res.json({ sucesso: true, resultado });
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao realizar logout da instância',
       detalhes: error instanceof Error ? error.message : error,
     });
   }
