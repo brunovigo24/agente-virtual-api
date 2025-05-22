@@ -62,3 +62,16 @@ export const listarInstancias = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deletarInstancia = async (req: Request, res: Response) => {
+  const { instance } = req.params;
+  try {
+    const resultado = await evolutionManager.deleteInstancia(instance);
+    res.json({ sucesso: true, resultado });
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao deletar instância',
+      detalhes: error instanceof Error ? error.message : error,
+    });
+  }
+};
