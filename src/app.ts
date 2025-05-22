@@ -10,6 +10,7 @@ import statusRoutes from './routes/statusRoutes';
 import mensagensRoutes from './routes/mensagensRoutes';
 import destinosRoutes from './routes/destinosRoutes';
 import menusRoutes from './routes/menusRoutes';
+import evolutionRoutes from './routes/evolutionRoutes';
 import cors from 'cors';
 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/webhook', webhookRoutes);
 app.use('/api/mensagens', autenticarJWT, mensagensRoutes);
 app.use('/api/destinos', autenticarJWT, destinosRoutes);
 app.use('/api/menus', autenticarJWT, menusRoutes);
+app.use('/api/evolution', autenticarJWT, evolutionRoutes);
 
 app.use('/', statusRoutes);
 
