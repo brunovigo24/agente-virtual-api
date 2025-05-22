@@ -11,11 +11,18 @@ export const criarInstancia = async (req: Request, res: Response) => {
   }
 };
 
-// export const gerarQR = async (req: Request, res: Response) => {
-//   const nome = req.params.nome;
-//   const resultado = await evolutionManager.gerarQRCode(nome);
-//   res.json(resultado);
-// };
+export const gerarQR = async (req: Request, res: Response) => {
+  const { nome } = req.params;
+  try {
+    const resultado = await evolutionManager.gerarQR(nome);
+    res.json(resultado);
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao gerar QR Code',
+      detalhes: error instanceof Error ? error.message : error,
+    });
+  }
+};
 
 // export const gerarPairing = async (req: Request, res: Response) => {
 //   const nome = req.params.nome;

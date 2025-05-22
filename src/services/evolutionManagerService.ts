@@ -51,3 +51,22 @@ export const criarInstancia = async (nome: string, numero: string) => {
   const data = await response.json();
   return data;
 };
+
+export const gerarQR = async (instanceName: string) => {
+  const url = `${EVOLUTION_API_URL}/instance/connect/${instanceName}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json',
+    }
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao gerar QR Code');
+  }
+
+  return data;
+};
