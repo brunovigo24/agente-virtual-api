@@ -75,3 +75,16 @@ export const logoutInstancia = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const restartInstancia = async (req: Request, res: Response) => {
+  const { instance } = req.params;
+  try {
+    const resultado = await evolutionManager.restartInstancia(instance);
+    res.json({ sucesso: true, resultado });
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao reiniciar a instância',
+      detalhes: error instanceof Error ? error.message : error,
+    });
+  }
+};

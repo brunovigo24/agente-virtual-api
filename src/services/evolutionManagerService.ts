@@ -185,3 +185,23 @@ export const logoutInstancia = async (instanceName: string) => {
 
   return data;
 };
+
+export const restartInstancia = async (instanceName: string) => {
+  const url = `${EVOLUTION_API_URL}/instance/restart/${instanceName}`;
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      apikey: EVOLUTION_API_KEY,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || 'Erro ao reiniciar a instância');
+  }
+
+  return data;
+};
