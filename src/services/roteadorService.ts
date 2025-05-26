@@ -7,14 +7,11 @@ import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
 //import * as destinosTransferencia from '../utils/destinosTransferencia';
 import { lerJson } from '../utils/jsonLoader';
+import { AvaliarResultado } from '../interfaces/AvaliarResultado';
+import * as evolutionApiService from './evolutionApiService';
 const fluxoEtapas = lerJson('fluxoEtapas.json');
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
-
-interface AvaliarResultado {
-  tipo: 'menu' | 'acao' | 'transferido_finalizado' | 'etapa_atualizada' | 'erro';
-  menu?: any;
-  mensagem?: string;
-}
+import * as acoesService from './acoesService';
 
 export const avaliar = async (
   etapaAtual: string,
@@ -57,9 +54,13 @@ export const avaliar = async (
     proximaEtapa = opcoes['*'];
   }
 
-  // Executa handler, mas NÃO retorna imediatamente
-  if ((actionHandlers as any)[etapaAtual]?.[mensagem]) {
-    await (actionHandlers as any)[etapaAtual][mensagem](telefone);
+  const acaoDinamica = await acoesService.buscarPorEtapaEEntrada(etapaAtual, mensagem.trim());
+  if (acaoDinamica) {
+    if (acaoDinamica.tipo === 'mensagem') {
+      await evolutionApiService.enviarMensagem(telefone, acaoDinamica.valor);
+    } else if (acaoDinamica.tipo === 'link') {
+      await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.valor}`);
+    }
   }
 
   // Se encontrou próxima etapa, atualiza conversa e registra etapa
