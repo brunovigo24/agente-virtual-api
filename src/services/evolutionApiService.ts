@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.EVOLUTION_API_URL;
-const API_KEY = process.env.EVOLUTION_API_KEY;
+const API_HASH = process.env.EVOLUTION_API_HASH;
 const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME;
 
 /**
@@ -28,7 +28,7 @@ export async function enviarMensagem(telefone: string, texto: string): Promise<a
       payload,
       {
         headers: {
-          apikey: API_KEY as string,
+          apikey: API_HASH as string,
           'Content-Type': 'application/json'
         }
       }
@@ -86,7 +86,7 @@ export async function enviarLista(
       payload,
       {
         headers: {
-          apikey: API_KEY as string,
+          apikey: API_HASH as string,
           'Content-Type': 'application/json'
         }
       }
