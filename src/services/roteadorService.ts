@@ -56,10 +56,10 @@ export const avaliar = async (
 
   const acaoDinamica = await acoesService.buscarPorEtapa(etapaAtual);
   if (acaoDinamica) {
-    if (acaoDinamica.tipo === 'mensagem') {
-      await evolutionApiService.enviarMensagem(telefone, acaoDinamica.valor);
-    } else if (acaoDinamica.tipo === 'link') {
-      await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.valor}`);
+    if (acaoDinamica.acao_tipo === 'mensagem') {
+      await evolutionApiService.enviarMensagem(telefone, acaoDinamica.conteudo);
+    } else if (acaoDinamica.acao_tipo === 'link') {
+      await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.conteudo}`);
     }
   }
 
