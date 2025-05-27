@@ -6,10 +6,13 @@ export const criarAcao = async (dados: {
   opcao: string;
   acao_tipo: string;
   conteudo: string;
+  arquivo?: Buffer | null;
+  arquivo_nome?: string | null;
+  arquivo_tipo?: string | null;
 }) => {
   const [result] = await db.query<ResultSetHeader>(
-    'INSERT INTO acoes_automatizadas (etapa, opcao, acao_tipo, conteudo) VALUES (?, ?, ?, ?)',
-    [dados.etapa, dados.opcao, dados.acao_tipo, dados.conteudo]
+    'INSERT INTO acoes_automatizadas (etapa, opcao, acao_tipo, conteudo, arquivo, arquivo_nome, arquivo_tipo) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [dados.etapa, dados.opcao, dados.acao_tipo, dados.conteudo, dados.arquivo, dados.arquivo_nome, dados.arquivo_tipo]
   );
   return result.insertId;
 };
@@ -27,12 +30,12 @@ export const buscarPorEtapa = async (etapa: string) => {
     [etapa]
   );
   return rows[0] || null;
-};
+};// Alterar lógica, tem que buscar opção também 
 
-export const atualizarAcao = async (id: number, opcao: string, dados: { acao_tipo: string; conteudo: string }) => {
+export const atualizarAcao = async (id: number, opcao: string, dados: { acao_tipo: string; conteudo: string; arquivo?: Buffer | null; arquivo_nome?: string | null; arquivo_tipo?: string | null; }) => {
   await db.query(
-    'UPDATE acoes_automatizadas SET acao_tipo = ?, conteudo = ? WHERE id = ? AND opcao = ?',
-    [dados.acao_tipo, dados.conteudo, id, opcao]
+    'UPDATE acoes_automatizadas SET acao_tipo = ?, conteudo = ?, arquivo = ?, arquivo_nome = ?, arquivo_tipo = ? WHERE id = ? AND opcao = ?',
+    [dados.acao_tipo, dados.conteudo, dados.arquivo, dados.arquivo_nome, dados.arquivo_tipo, id, opcao]
   );
 };
 
