@@ -54,7 +54,7 @@ export const avaliar = async (
     proximaEtapa = opcoes['*'];
   }
 
-  const acaoDinamica = await acoesService.buscarPorEtapa(etapaAtual);
+  const acaoDinamica = await acoesService.buscarPorEtapaEOpcoes(etapaAtual, mensagem.trim());
   if (acaoDinamica) {
     if (acaoDinamica.acao_tipo === 'mensagem') {
       await evolutionApiService.enviarMensagem(telefone, acaoDinamica.conteudo);

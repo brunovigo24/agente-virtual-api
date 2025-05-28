@@ -24,13 +24,13 @@ export const listarAcoes = async () => {
   return rows;
 };
 
-export const buscarPorEtapa = async (etapa: string) => {
+export const buscarPorEtapaEOpcoes = async (etapa: string, opcao: string) => {
   const [rows] = await db.query<any[]>(
-    'SELECT * FROM acoes_automatizadas WHERE etapa = ? LIMIT 1',
-    [etapa]
+    'SELECT * FROM acoes_automatizadas WHERE etapa = ? AND opcao = ? LIMIT 1',
+    [etapa, opcao]
   );
   return rows[0] || null;
-};// Alterar lógica, tem que buscar opção também 
+};
 
 export const atualizarAcao = async (id: number, opcao: string, dados: { acao_tipo: string; conteudo: string; arquivo?: Buffer | null; arquivo_nome?: string | null; arquivo_tipo?: string | null; }) => {
   await db.query(
