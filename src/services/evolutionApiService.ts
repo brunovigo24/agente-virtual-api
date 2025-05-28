@@ -100,3 +100,69 @@ export async function enviarLista(
     throw error;
   }
 }
+
+/**
+ * Envia um arquivo (mídia) para o usuário
+ * @param telefone - Número do destinatário
+ * @param arquivo - Objeto contendo os dados do arquivo
+ * @param opcoes - Opções adicionais (caption, delay, etc)
+ */
+export async function enviarArquivo(
+  telefone: string,
+  arquivo: {
+    mediatype: string; // ex: 'image', 'video', 'audio', 'document'
+    mimetype: string; // ex: 'image/png', 'video/mp4', etc
+    media: string; // base64 string
+    fileName: string;
+  },
+  opcoes?: {
+    caption?: string;
+    delay?: number;
+    linkPreview?: boolean;
+    mentionsEveryOne?: boolean;
+    mentioned?: string[];
+    quoted?: any;
+  }
+): Promise<any> {
+  const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
+  const payload: any = {
+    instanceName: INSTANCE_NAME,
+    number: numeroLimpo,
+    mediatype: arquivo.mediatype,
+    mimetype: arquivo.mimetype,
+    caption: opcoes?.caption,
+    media: arquivo.media,
+    fileName: arquivo.fileName,
+    delay: opcoes?.delay ?? 1000,
+    linkPreview: opcoes?.linkPreview,
+    mentionsEveryOne: opcoes?.mentionsEveryOne,
+    mentioned: opcoes?.mentioned,
+    quoted: opcoes?.quoted
+  };
+
+  // Remove campos undefined
+  Object.keys(payload).forEach(key => payload[key] === undefined && delete payload[key]);
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/message/sendMedia/${INSTANCE_NAME}`,
+      payload,
+      {
+        headers: {
+          apikey: API_HASH as string,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    console.log('Arquivo enviado:', response.status, response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error('Erro ao enviar arquivo:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      payload
+    });
+    throw error;
+  }
+}

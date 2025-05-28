@@ -60,6 +60,26 @@ export const avaliar = async (
       await evolutionApiService.enviarMensagem(telefone, acaoDinamica.conteudo);
     } else if (acaoDinamica.acao_tipo === 'link') {
       await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.conteudo}`);
+    } else if (acaoDinamica.acao_tipo === 'arquivo' && acaoDinamica.arquivo && acaoDinamica.arquivo_nome && acaoDinamica.arquivo_tipo) {
+      // Converter Buffer para base64
+      const base64 = acaoDinamica.arquivo.toString('base64');
+      // Definir mediatype dinamicamente
+      let mediatype = acaoDinamica.arquivo_tipo.split('/')[0];
+      if (mediatype === 'application') {
+        mediatype = 'document';
+      }
+      await evolutionApiService.enviarArquivo(
+        telefone,
+        {
+          mediatype: mediatype, // dinâmico conforme arquivo_tipo
+          mimetype: acaoDinamica.arquivo_tipo,
+          media: base64,
+          fileName: acaoDinamica.arquivo_nome
+        },
+        {
+          caption: acaoDinamica.conteudo // pode ser usado como legenda
+        }
+      );
     }
   }
 
