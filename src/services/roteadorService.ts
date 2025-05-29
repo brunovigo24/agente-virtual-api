@@ -1,17 +1,15 @@
 import { Conversa } from '../interfaces/Conversa';
-//import { fluxoEtapas } from '../utils/fluxoEtapas';
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
-// import * as menus from '../utils/menus';
-import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
-//import * as destinosTransferencia from '../utils/destinosTransferencia';
 import { lerJson } from '../utils/jsonLoader';
 import { AvaliarResultado } from '../interfaces/AvaliarResultado';
 import * as evolutionApiService from './evolutionApiService';
+import * as acoesService from './acoesService';
 const fluxoEtapas = lerJson('fluxoEtapas.json');
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
-import * as acoesService from './acoesService';
+const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
+const mensagensSistema = lerJson('mensagensSistema.json');
 
 export const avaliar = async (
   etapaAtual: string,
@@ -19,6 +17,21 @@ export const avaliar = async (
   conversa: Conversa,
   telefone: string
 ): Promise<AvaliarResultado | null> => {
+
+  // Lógica para resposta da lista "Ajudo em algo mais?"
+  if (etapasAjudoEmMaisInformacoes?.includes(etapaAtual)) {
+    if (mensagem.trim() === '1') {
+      await etapaService.resetar(conversa.id);
+      await conversaService.atualizarEtapa(conversa.id, 'menu_principal');
+      const menus = lerJson('menus.json');
+      return { tipo: 'menu', menu: (menus as any)['menu_principal'] };
+    }
+    if (mensagem.trim() === '2') {
+      await conversaService.finalizarConversa(conversa.id);
+      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
+    }
+  }
+
   // Lógica de voltar etapa
   if (mensagem.trim() === '#' || mensagem.toLowerCase() === 'voltar') {
     const etapas = await etapaService.getEtapas(conversa.id);
@@ -77,7 +90,19 @@ export const avaliar = async (
           fileName: acaoDinamica.arquivo_nome
         },
         {
-          caption: acaoDinamica.conteudo // pode ser usado como legenda
+          caption: acaoDinamica.conteudo // Usado como legenda
+        }
+      );
+      // Envia lista de "Ajudo em algo mais?"
+      await evolutionApiService.enviarLista(
+        telefone,
+        {
+          titulo: 'Ajudo em algo mais?',
+          descricao: "Escolha uma das opções abaixo:\n1️⃣ Sim\n2️⃣ Não",
+          opcoes: [
+            { id: '1', titulo: 'Sim' },
+            { id: '2', titulo: 'Não' }
+          ]
         }
       );
     }
@@ -143,7 +168,7 @@ export const avaliar = async (
   }
 
   // Caso apenas ação foi executada, sem transição
-  if ((actionHandlers as any)[etapaAtual]?.[mensagem]) {
+  if (acaoDinamica) {
     return { tipo: 'acao' };
   }
 

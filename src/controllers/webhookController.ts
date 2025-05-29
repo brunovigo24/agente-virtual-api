@@ -4,7 +4,6 @@ import * as conversaService from '../services/conversaService';
 import * as mensagemService from '../services/mensagemService';
 import * as roteadorService from '../services/roteadorService';
 import * as evolutionApiService from '../services/evolutionApiService';
-//import * as menus from '../utils/menus';
 import { lerJson } from '../utils/jsonLoader';
 
 // Ajuste de tipos para os dados recebidos do webhook
@@ -47,6 +46,7 @@ export const handleWebhook = async (req: Request, res: Response) => {
       dados?.data?.message?.conversation ||
       dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
       '';
+
 
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
