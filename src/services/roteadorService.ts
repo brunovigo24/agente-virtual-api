@@ -27,8 +27,7 @@ export const avaliar = async (
       return { tipo: 'menu', menu: (menus as any)['menu_principal'] };
     }
     if (mensagem.trim() === '2') {
-      await conversaService.finalizarConversa(conversa.id);
-      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
+      return { tipo: 'finalizado' };
     }
   }
 
@@ -93,19 +92,19 @@ export const avaliar = async (
           caption: acaoDinamica.conteudo // Usado como legenda
         }
       );
-      // Envia lista de "Ajudo em algo mais?"
-      await evolutionApiService.enviarLista(
-        telefone,
-        {
-          titulo: 'Ajudo em algo mais?',
-          descricao: "Escolha uma das opções abaixo:\n1️⃣ Sim\n2️⃣ Não",
-          opcoes: [
-            { id: '1', titulo: 'Sim' },
-            { id: '2', titulo: 'Não' }
-          ]
-        }
-      );
     }
+    // Envia lista de "Ajudo em algo mais?"
+    await evolutionApiService.enviarLista(
+      telefone,
+      {
+        titulo: 'Ajudo em algo mais?',
+        descricao: "Escolha uma das opções abaixo:\n1️⃣ Sim\n2️⃣ Não",
+        opcoes: [
+          { id: '1', titulo: 'Sim' },
+          { id: '2', titulo: 'Não' }
+        ]
+      }
+    );
   }
 
   // Se encontrou próxima etapa, atualiza conversa e registra etapa

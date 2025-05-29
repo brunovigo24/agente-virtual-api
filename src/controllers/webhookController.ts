@@ -47,7 +47,6 @@ export const handleWebhook = async (req: Request, res: Response) => {
       dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
       '';
 
-
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
     if (!telefone) {
@@ -98,6 +97,9 @@ export const handleWebhook = async (req: Request, res: Response) => {
       } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
         await conversaService.finalizarConversa(conversa.id);
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+      } else if (resultadoRoteador?.tipo === 'finalizado') {
+        await conversaService.finalizarConversa(conversa.id);
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
       } else if (resultadoRoteador?.tipo === 'etapa_atualizada') {
         // Apenas atualiza a interação, sem enviar menu (caso queira, pode enviar mensagem personalizada)
         await conversaService.atualizarUltimaInteracao(conversa.id);
