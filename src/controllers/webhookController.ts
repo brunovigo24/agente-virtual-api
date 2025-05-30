@@ -4,7 +4,6 @@ import * as conversaService from '../services/conversaService';
 import * as mensagemService from '../services/mensagemService';
 import * as roteadorService from '../services/roteadorService';
 import * as evolutionApiService from '../services/evolutionApiService';
-//import * as menus from '../utils/menus';
 import { lerJson } from '../utils/jsonLoader';
 
 // Ajuste de tipos para os dados recebidos do webhook
@@ -98,6 +97,9 @@ export const handleWebhook = async (req: Request, res: Response) => {
       } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
         await conversaService.finalizarConversa(conversa.id);
         await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+      } else if (resultadoRoteador?.tipo === 'finalizado') {
+        await conversaService.finalizarConversa(conversa.id);
+        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
       } else if (resultadoRoteador?.tipo === 'etapa_atualizada') {
         // Apenas atualiza a interação, sem enviar menu (caso queira, pode enviar mensagem personalizada)
         await conversaService.atualizarUltimaInteracao(conversa.id);

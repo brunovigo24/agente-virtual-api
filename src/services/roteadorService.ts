@@ -1,20 +1,15 @@
 import { Conversa } from '../interfaces/Conversa';
-//import { fluxoEtapas } from '../utils/fluxoEtapas';
 import * as conversaService from './conversaService';
 import * as etapaService from './etapaService';
-// import * as menus from '../utils/menus';
-import * as actionHandlers from '../utils/actionHandlers';
 import * as transferenciaService from './transferenciaService';
-//import * as destinosTransferencia from '../utils/destinosTransferencia';
 import { lerJson } from '../utils/jsonLoader';
+import { AvaliarResultado } from '../interfaces/AvaliarResultado';
+import * as evolutionApiService from './evolutionApiService';
+import * as acoesService from './acoesService';
 const fluxoEtapas = lerJson('fluxoEtapas.json');
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
-
-interface AvaliarResultado {
-  tipo: 'menu' | 'acao' | 'transferido_finalizado' | 'etapa_atualizada' | 'erro';
-  menu?: any;
-  mensagem?: string;
-}
+const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
+const menus = lerJson('menus.json');
 
 export const avaliar = async (
   etapaAtual: string,
@@ -22,6 +17,20 @@ export const avaliar = async (
   conversa: Conversa,
   telefone: string
 ): Promise<AvaliarResultado | null> => {
+
+  // Lógica para resposta da lista "Ajudo em algo mais?"
+  if (etapasAjudoEmMaisInformacoes?.includes(etapaAtual)) {
+    if (mensagem.trim() === '1') {
+      await etapaService.resetar(conversa.id);
+      await conversaService.atualizarEtapa(conversa.id, 'menu_principal');
+      const menus = lerJson('menus.json');
+      return { tipo: 'menu', menu: (menus as any)['menu_principal'] };
+    }
+    if (mensagem.trim() === '2') {
+      return { tipo: 'finalizado' };
+    }
+  }
+
   // Lógica de voltar etapa
   if (mensagem.trim() === '#' || mensagem.toLowerCase() === 'voltar') {
     const etapas = await etapaService.getEtapas(conversa.id);
@@ -57,9 +66,35 @@ export const avaliar = async (
     proximaEtapa = opcoes['*'];
   }
 
-  // Executa handler, mas NÃO retorna imediatamente
-  if ((actionHandlers as any)[etapaAtual]?.[mensagem]) {
-    await (actionHandlers as any)[etapaAtual][mensagem](telefone);
+  const acaoDinamica = await acoesService.buscarPorEtapaEOpcoes(etapaAtual, mensagem.trim());
+  if (acaoDinamica) {
+    if (acaoDinamica.acao_tipo === 'mensagem') {
+      await evolutionApiService.enviarMensagem(telefone, acaoDinamica.conteudo);
+    } else if (acaoDinamica.acao_tipo === 'link') {
+      await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.conteudo}`);
+    } else if (acaoDinamica.acao_tipo === 'arquivo' && acaoDinamica.arquivo && acaoDinamica.arquivo_nome && acaoDinamica.arquivo_tipo) {
+      // Converter Buffer para base64
+      const base64 = acaoDinamica.arquivo.toString('base64');
+      // Definir mediatype dinamicamente
+      let mediatype = acaoDinamica.arquivo_tipo.split('/')[0];
+      if (mediatype === 'application') {
+        mediatype = 'document';
+      }
+      await evolutionApiService.enviarArquivo(
+        telefone,
+        {
+          mediatype: mediatype, // dinâmico conforme arquivo_tipo
+          mimetype: acaoDinamica.arquivo_tipo,
+          media: base64,
+          fileName: acaoDinamica.arquivo_nome
+        },
+        {
+          caption: acaoDinamica.conteudo // Usado como legenda
+        }
+      );
+    }
+    // Envia lista de "Ajudo em algo mais?"
+    await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
   }
 
   // Se encontrou próxima etapa, atualiza conversa e registra etapa
@@ -122,7 +157,7 @@ export const avaliar = async (
   }
 
   // Caso apenas ação foi executada, sem transição
-  if ((actionHandlers as any)[etapaAtual]?.[mensagem]) {
+  if (acaoDinamica) {
     return { tipo: 'acao' };
   }
 

@@ -50,7 +50,7 @@ export const getEtapas = async (conversaId: number): Promise<Etapa | null> => {
 export const resetar = async (conversaId: number): Promise<any> => {
   const [rows]: any = await db.query(
     `UPDATE etapas
-     SET etapa_1 = NULL, etapa_2 = NULL, etapa_3 = NULL, etapa_4 = NULL
+     SET etapa_2 = NULL, etapa_3 = NULL, etapa_4 = NULL, etapa_5 = NULL
      WHERE conversa_id = ?`,
     [conversaId]
   );

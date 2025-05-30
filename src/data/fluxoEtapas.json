@@ -1,8 +1,11 @@
 {
+  "etapasAjudoEmMaisInformacoes": [
+    "matriculas_infantil_solicitar_video"
+
+  ],
   "etapasDeEncaminhamentoDireto": [
     "rh_outros_assuntos",
     "matriculas_infantil_agendar_visita",
-    "matriculas_infantil_solicitar_video",
     "matriculas_infantil_solicitar_mais_informacoes",
     "matriculas_anos_iniciais_agendar_visita",
     "matriculas_anos_iniciais_solicitar_mais_informacoes",
