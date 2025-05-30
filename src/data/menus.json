@@ -568,5 +568,13 @@
         "titulo": "↩️ Voltar"
       }
     ]
+  },
+  "ajudo_mais": {
+    "titulo": "Ajudo em algo mais?",
+    "descricao": "Escolha uma das opções abaixo:\n1️⃣ Sim\n2️⃣ Não",
+    "opcoes": [
+      { "id": "1", "titulo": "Sim" },
+      { "id": "2", "titulo": "Não" }
+    ]
   }
 }

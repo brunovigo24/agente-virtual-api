@@ -9,7 +9,7 @@ import * as acoesService from './acoesService';
 const fluxoEtapas = lerJson('fluxoEtapas.json');
 const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
 const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
-const mensagensSistema = lerJson('mensagensSistema.json');
+const menus = lerJson('menus.json');
 
 export const avaliar = async (
   etapaAtual: string,
@@ -94,17 +94,7 @@ export const avaliar = async (
       );
     }
     // Envia lista de "Ajudo em algo mais?"
-    await evolutionApiService.enviarLista(
-      telefone,
-      {
-        titulo: 'Ajudo em algo mais?',
-        descricao: "Escolha uma das opções abaixo:\n1️⃣ Sim\n2️⃣ Não",
-        opcoes: [
-          { id: '1', titulo: 'Sim' },
-          { id: '2', titulo: 'Não' }
-        ]
-      }
-    );
+    await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
   }
 
   // Se encontrou próxima etapa, atualiza conversa e registra etapa
