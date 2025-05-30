@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: atendente-virtual-ccim
+    container_name: agente-virtual-ccim-api
     restart: always
     env_file:
       - .env
