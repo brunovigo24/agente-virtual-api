@@ -5,27 +5,7 @@ import * as mensagemService from '../services/mensagemService';
 import * as roteadorService from '../services/roteadorService';
 import * as evolutionApiService from '../services/evolutionApiService';
 import { lerJson } from '../utils/jsonLoader';
-
-// Ajuste de tipos para os dados recebidos do webhook
-interface WebhookDados {
-  data?: {
-    key?: {
-      fromMe?: boolean;
-      remoteJid?: string;
-      id?: string;
-    };
-    pushName?: string;
-    message?: {
-      conversation?: string;
-      listResponseMessage?: {
-        singleSelectReply?: {
-          selectedRowId?: string;
-        };
-      };
-    };
-  };
-  instance?: string;
-}
+import { WebhookDados } from '../interfaces/WebhookDados';
 
 export const handleWebhook = async (req: Request, res: Response) => {
   try {
