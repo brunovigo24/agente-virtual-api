@@ -1,17 +1,17 @@
 services:
   app:
     build: .
-    container_name: atendente-virtual-ccim
+    container_name: agente-virtual-ccim-api
     restart: always
-    env_file:
-      - .env
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - EVOLUTION_API_URL=${EVOLUTION_API_URL}
-      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
-      - EVOLUTION_INSTANCE_NAME=${EVOLUTION_INSTANCE_NAME}
+      - EVOLUTION_API_URL=http://172.26.0.4:8080
+      - EVOLUTION_API_HASH=B2EE0C67A4D1-4FF7-8B53-7D47EEF00258
+      - EVOLUTION_INSTANCE_NAME=Bruno2
+      - EVOLUTION_API_KEY=123
+      - WEBHOOK_URL=http://172.26.0.1:3000/webhook/whatsapp
       - DB_HOST=172.17.0.1
       - DB_DATABASE=automacaobeta
       - DB_USER=root
