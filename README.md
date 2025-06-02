@@ -35,6 +35,26 @@ O **Agente Virtual CCIM** é uma API desenvolvida em Node.js com Express para au
    ```
    O servidor será iniciado na porta 3000 por padrão.
 
+### 🐳 Passos para executar via Docker
+
+1. **Construa e inicie os containers:**
+
+   ```bash
+    docker-compose up --build
+   ```
+2. **Acesse a aplicação:**
+
+   ```arduino
+    http://localhost:3000
+   ```
+
+3. **Limpar volumes e imagens (opcional):**
+Se quiser remover tudo (containers, volumes e imagens associadas):
+
+   ```bash
+    docker-compose down --volumes --rmi all
+   ```
+
 ## 🔑 Variáveis de Ambiente
 
 O sistema utiliza variáveis de ambiente para configurar a integração com a Evolution API. Você pode definir essas variáveis em um arquivo `.env` na raiz do projeto ou diretamente no ambiente de execução:
