@@ -31,7 +31,8 @@ export const listar = async (_: Request, res: Response) => {
 
 export const buscarPorEtapa = async (req: Request, res: Response) => {
   const etapa = req.params.etapa;
-  const acao = await acoesService.buscarPorEtapa(etapa);
+  const opcao = req.params.opcao;
+  const acao = await acoesService.buscarPorEtapaEOpcoes(etapa, opcao);
   res.json(acao);
 };
 

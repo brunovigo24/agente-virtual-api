@@ -1,8 +1,8 @@
 import db from '../database';
 import * as conversaService from '../services/conversaService';
 import * as evolutionApiService from '../services/evolutionApiService';
-import { mensagensSistema } from '../utils/mensagensSistema';
-import { Conversa } from '../interfaces/Conversa';
+import { lerJson } from '../utils/jsonLoader';
+const mensagensSistema = lerJson('mensagensSistema.json');
 
 const encerrarConversasInativas = async (): Promise<void> => {
   try {
