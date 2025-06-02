@@ -27,11 +27,6 @@ export const handleWebhook = async (req: Request, res: Response) => {
       dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
       '';
 
-    // Permitir apenas o número 5544988587535
-    if (telefone !== '554488587535@s.whatsapp.net') {
-      return res.status(403).json({ error: 'Número não autorizado' });
-    }
-
     console.log(`[Webhook] Número: ${telefone} | Instância: ${instancia} | Nome: ${nomePessoa} | ID Msg: ${idMensagem} | Mensagem: ${mensagem}`);
 
     if (!telefone) {
