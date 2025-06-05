@@ -1,3 +1,6 @@
+import { salvarInstancia, removerInstancia } from './evolutionInstanceService';
+import { EvolutionCreateResponse } from '../interfaces/EvolutionInstance';
+
 const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || '';
 const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || '';
 
@@ -19,8 +22,8 @@ export const criarInstancia = async (nome: string, numero: string) => {
     readStatus: true,
     syncFullHistory: true,
     webhook: {
-      url: process.env.WEBHOOK_URL || 'http://localhost:3000/webhook/whatsapp',
-      byEvents: true,
+      url: process.env.WEBHOOK_URL,
+      byEvents: false,
       base64: true,
       headers: {
         authorization: EVOLUTION_API_KEY,
@@ -48,7 +51,22 @@ export const criarInstancia = async (nome: string, numero: string) => {
     throw new Error(`Erro ao criar instância: ${errorMessage}`);
   }
 
-  const data = await response.json();
+  const data: EvolutionCreateResponse = await response.json();
+  
+  // Salvar a instância no banco de dados
+  try {
+    await salvarInstancia({
+      instance_name: data.instance.instanceName,
+      instance_id: data.instance.instanceId,
+      hash: data.hash,
+      status: data.instance.status,
+      webhook_url: body.webhook.url
+    });
+    
+  } catch (dbError) {
+    console.error('❌ Erro ao salvar instância no banco:', dbError);
+  }
+  
   return data;
 };
 
@@ -161,6 +179,13 @@ export const deleteInstancia = async (instanceName: string) => {
 
   if (!response.ok) {
     throw new Error(data?.message || 'Erro ao deletar instância');
+  }
+
+  // Remover do banco de dados também
+  try {
+    await removerInstancia(instanceName);
+  } catch (dbError) {
+    console.error('❌ Erro ao remover instância do banco:', dbError);
   }
 
   return data;

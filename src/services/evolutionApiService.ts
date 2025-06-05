@@ -1,16 +1,27 @@
 import axios from 'axios';
+import { buscarInstanciaAtiva, buscarInstanciaPorNome } from './evolutionInstanceService';
 
 const API_URL = process.env.EVOLUTION_API_URL;
-const API_HASH = process.env.EVOLUTION_API_HASH;
-const INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME;
 
 /**
  * Envia mensagem de texto simples 
  */
-export async function enviarMensagem(telefone: string, texto: string): Promise<any> {
+export async function enviarMensagem(telefone: string, texto: string, instanceName?: string): Promise<any> {
+  // Buscar instância ativa se não especificada
+  let instancia;
+  if (instanceName) {
+    instancia = await buscarInstanciaPorNome(instanceName);
+  } else {
+    instancia = await buscarInstanciaAtiva();
+  }
+
+  if (!instancia) {
+    throw new Error('Nenhuma instância ativa encontrada no banco de dados');
+  }
+
   const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
   const payload = {
-    instanceName: INSTANCE_NAME,
+    instanceName: instancia.instance_name,
     number: numeroLimpo,
     delay: 1000,
     text: texto
@@ -18,17 +29,17 @@ export async function enviarMensagem(telefone: string, texto: string): Promise<a
 
   // Adicione este log para depuração
   console.log('Enviando para Evolution:', {
-    endpoint: `${API_URL}/message/sendText/${INSTANCE_NAME}`,
+    endpoint: `${API_URL}/message/sendText/${instancia.instance_name}`,
     payload
   });
 
   try {
     const response = await axios.post(
-      `${API_URL}/message/sendText/${INSTANCE_NAME}`,
+      `${API_URL}/message/sendText/${instancia.instance_name}`,
       payload,
       {
         headers: {
-          apikey: API_HASH as string,
+          apikey: instancia.hash,
           'Content-Type': 'application/json'
         }
       }
@@ -38,7 +49,7 @@ export async function enviarMensagem(telefone: string, texto: string): Promise<a
   } catch (error: any) {
     console.error('Erro ao enviar mensagem:', {
       message: error.message,
-      response: error.response?.data, // Adicione esta linha para ver o erro detalhado da API
+      response: error.response?.data, 
       status: error.response?.status,
       payload
     });
@@ -54,8 +65,21 @@ export async function enviarMensagem(telefone: string, texto: string): Promise<a
 export async function enviarLista(
   telefone: string,
   menu: { titulo: string; descricao: string; opcoes: Array<{ titulo: string; id: string }> },
-  menuIds: Record<string, any> = {}
+  menuIds: Record<string, any> = {},
+  instanceName?: string
 ): Promise<any> {
+  // Buscar instância ativa se não especificada
+  let instancia;
+  if (instanceName) {
+    instancia = await buscarInstanciaPorNome(instanceName);
+  } else {
+    instancia = await buscarInstanciaAtiva();
+  }
+
+  if (!instancia) {
+    throw new Error('Nenhuma instância ativa encontrada no banco de dados');
+  }
+
   const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
 
   // Monta as opções (rows) a partir do menu recebido
@@ -65,7 +89,7 @@ export async function enviarLista(
   }));
 
   const payload = {
-    instanceName: INSTANCE_NAME,
+    instanceName: instancia.instance_name,
     number: numeroLimpo,
     title: menu.titulo,
     description: menu.descricao,
@@ -82,11 +106,11 @@ export async function enviarLista(
 
   try {
     const response = await axios.post(
-      `${API_URL}/message/sendList/${INSTANCE_NAME}`,
+      `${API_URL}/message/sendList/${instancia.instance_name}`,
       payload,
       {
         headers: {
-          apikey: API_HASH as string,
+          apikey: instancia.hash,
           'Content-Type': 'application/json'
         }
       }
@@ -122,11 +146,24 @@ export async function enviarArquivo(
     mentionsEveryOne?: boolean;
     mentioned?: string[];
     quoted?: any;
+    instanceName?: string;
   }
 ): Promise<any> {
+  // Buscar instância ativa se não especificada
+  let instancia;
+  if (opcoes?.instanceName) {
+    instancia = await buscarInstanciaPorNome(opcoes.instanceName);
+  } else {
+    instancia = await buscarInstanciaAtiva();
+  }
+
+  if (!instancia) {
+    throw new Error('Nenhuma instância ativa encontrada no banco de dados');
+  }
+
   const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
   const payload: any = {
-    instanceName: INSTANCE_NAME,
+    instanceName: instancia.instance_name,
     number: numeroLimpo,
     mediatype: arquivo.mediatype,
     mimetype: arquivo.mimetype,
@@ -145,11 +182,11 @@ export async function enviarArquivo(
 
   try {
     const response = await axios.post(
-      `${API_URL}/message/sendMedia/${INSTANCE_NAME}`,
+      `${API_URL}/message/sendMedia/${instancia.instance_name}`,
       payload,
       {
         headers: {
-          apikey: API_HASH as string,
+          apikey: instancia.hash,
           'Content-Type': 'application/json'
         }
       }
