@@ -1,8 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { authRoutes } from './routes/authRoutes';
 import fluxoRoutes from './routes/fluxoRoutes';
 import { autenticarJWT } from './middlewares/authMiddleware';
-import dotenv from 'dotenv';
-dotenv.config();
 import './config/inatividadeJob';
 import express from 'express';
 import webhookRoutes from './routes/webhookRoutes';
