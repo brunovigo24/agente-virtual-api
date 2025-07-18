@@ -72,26 +72,44 @@ export const avaliar = async (
       await evolutionApiService.enviarMensagem(telefone, acaoDinamica.conteudo);
     } else if (acaoDinamica.acao_tipo === 'link') {
       await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.conteudo}`);
-    } else if (acaoDinamica.acao_tipo === 'arquivo' && acaoDinamica.arquivo && acaoDinamica.arquivo_nome && acaoDinamica.arquivo_tipo) {
-      // Converter Buffer para base64
-      const base64 = acaoDinamica.arquivo.toString('base64');
-      // Definir mediatype dinamicamente
-      let mediatype = acaoDinamica.arquivo_tipo.split('/')[0];
-      if (mediatype === 'application') {
-        mediatype = 'document';
-      }
-      await evolutionApiService.enviarArquivo(
-        telefone,
-        {
-          mediatype: mediatype, // dinâmico conforme arquivo_tipo
-          mimetype: acaoDinamica.arquivo_tipo,
-          media: base64,
-          fileName: acaoDinamica.arquivo_nome
-        },
-        {
-          caption: acaoDinamica.conteudo // Usado como legenda
+    } else if (acaoDinamica.acao_tipo === 'arquivo' && acaoDinamica.arquivos && acaoDinamica.arquivos.length > 0) {
+      // Processar múltiplos arquivos
+      for (let i = 0; i < acaoDinamica.arquivos.length; i++) {
+        const arquivo = acaoDinamica.arquivos[i];
+        
+        // Converter Buffer para base64
+        const base64 = arquivo.arquivo.toString('base64');
+        // Definir mediatype dinamicamente
+        let mediatype = arquivo.arquivo_tipo.split('/')[0];
+        if (mediatype === 'application') {
+          mediatype = 'document';
         }
-      );
+        
+        // Criar legenda com numeração se houver múltiplos arquivos
+        let caption = acaoDinamica.conteudo;
+        if (acaoDinamica.arquivos.length > 1) {
+          caption = `${acaoDinamica.conteudo} (${i + 1}/${acaoDinamica.arquivos.length})`;
+        }
+        
+        await evolutionApiService.enviarArquivo(
+          telefone,
+          {
+            mediatype: mediatype, // dinâmico conforme arquivo_tipo
+            mimetype: arquivo.arquivo_tipo,
+            media: base64,
+            fileName: arquivo.arquivo_nome
+          },
+          {
+            caption: caption,
+            delay: i === 0 ? 1000 : 2000 
+          }
+        );
+        
+        // Pequeno delay entre arquivos para evitar rate limiting
+        if (i < acaoDinamica.arquivos.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
     }
     // Envia lista de "Ajudo em algo mais?"
     await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
