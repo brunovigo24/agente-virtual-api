@@ -6,10 +6,6 @@ import { lerJson } from '../utils/jsonLoader';
 import { AvaliarResultado } from '../interfaces/AvaliarResultado';
 import * as evolutionApiService from './evolutionApiService';
 import * as acoesService from './acoesService';
-const fluxoEtapas = lerJson('fluxoEtapas.json');
-const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
-const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
-const menus = lerJson('menus.json');
 
 export const avaliar = async (
   etapaAtual: string,
@@ -17,6 +13,13 @@ export const avaliar = async (
   conversa: Conversa,
   telefone: string
 ): Promise<AvaliarResultado | null> => {
+
+  // Carregar dados do JSON a cada execução para evitar problemas de cache
+  const fluxoEtapas = lerJson('fluxoEtapas.json');
+  const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
+  const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
+  const menus = lerJson('menus.json');
+  const destinosTransferencia = lerJson('destinosTransferencia.json');
 
   // Lógica para resposta da lista "Ajudo em algo mais?"
   if (etapasAjudoEmMaisInformacoes?.includes(etapaAtual)) {
@@ -137,25 +140,38 @@ export const avaliar = async (
 
       const numeroDestino = destinosTransferencia && chaveDestino && destinosTransferencia.hasOwnProperty(chaveDestino)
         ? destinosTransferencia[chaveDestino]
-        : '5544988587535';
+        : null;
 
-      await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
-      await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
-      return { tipo: 'transferido_finalizado' };
+      if (numeroDestino) {
+        await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
+        await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
+        return { tipo: 'transferido_finalizado' };
+      } else {
+        console.log('Destino de transferência não encontrado para:', chaveDestino);
+        return { tipo: 'erro', mensagem: 'Destino de transferência não configurado.' };
+      }
     }
 
     // Se for coleta de dados, pula para a lógica abaixo
     if (proximaEtapa === 'coleta_dados') {
       etapaAtual = 'coleta_dados';
     } else {
-      const menuKey = (proximaEtapa as string).replace(/_menu$/, 'Menu');
-      const menus = lerJson('menus.json');
+      // Verificar se a próxima etapa tem opções que levam para coleta_dados
+      const proximaEtapaOpcoes = (fluxoEtapas as any)[proximaEtapa];
+      if (proximaEtapaOpcoes && proximaEtapaOpcoes['*'] === 'coleta_dados') {
+        console.log('Debug - Próxima etapa tem wildcard para coleta_dados, processando...');
+        // Processar qualquer mensagem como coleta_dados
+        etapaAtual = 'coleta_dados';
+      } else {
+        const menuKey = (proximaEtapa as string).replace(/_menu$/, 'Menu');
+        const menus = lerJson('menus.json');
 
-      if ((menus as any)[proximaEtapa]) {
-        return { tipo: 'menu', menu: (menus as any)[proximaEtapa] };
-      }
-      if ((menus as any)[menuKey]) {
-        return { tipo: 'menu', menu: (menus as any)[menuKey] };
+        if ((menus as any)[proximaEtapa]) {
+          return { tipo: 'menu', menu: (menus as any)[proximaEtapa] };
+        }
+        if ((menus as any)[menuKey]) {
+          return { tipo: 'menu', menu: (menus as any)[menuKey] };
+        }
       }
     }
   }
@@ -167,11 +183,17 @@ export const avaliar = async (
     const chaveDestino = String((etapas as any)?.etapa_2 || '');
     const numeroDestino = destinosTransferencia && chaveDestino && destinosTransferencia.hasOwnProperty(chaveDestino)
       ? destinosTransferencia[chaveDestino]
-      : '5544988587535';
+      : null;
 
-    await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
-    await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
-    return { tipo: 'transferido_finalizado' };
+
+    if (numeroDestino) {
+      await conversaService.atualizarEtapa(conversa.id, 'transferido_finalizado');
+      await transferenciaService.transferirParaHumano(telefone, conversa.id.toString(), numeroDestino);
+      return { tipo: 'transferido_finalizado' };
+    } else {
+      console.log('Destino de transferência não encontrado para:', chaveDestino);
+      return { tipo: 'erro', mensagem: 'Destino de transferência não configurado.' };
+    }
   }
 
   // Caso apenas ação foi executada, sem transição

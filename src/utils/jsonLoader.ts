@@ -3,7 +3,14 @@ import path from 'path';
 
 export const lerJson = (arquivo: string) => {
   const caminho = path.resolve(__dirname, '..', 'data', arquivo);
-  const conteudo = fs.readFileSync(caminho, 'utf-8');
+  
+  // Força a limpeza de qualquer cache do sistema
+  try {
+    delete require.cache[caminho];
+  } catch (e) {
+  }
+  
+  const conteudo = fs.readFileSync(caminho, { encoding: 'utf-8', flag: 'r' });
   return JSON.parse(conteudo);
 };
 
