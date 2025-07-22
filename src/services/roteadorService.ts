@@ -145,12 +145,13 @@ export const avaliar = async (
     // Encaminhamento direto: se etapa está na lista, transfere já
     if (etapasDeEncaminhamentoDireto.includes(proximaEtapa)) {
       const etapas = await etapaService.getEtapas(conversa.id);
-      // etapa_1 sempre será 'menu_principal', então usamos etapa_2 ou etapa_3 conforme o caso
+      // Lógica para determinar a chave de destino
       let chaveDestino: string;
-
       if ((etapas as any)?.etapa_2 === 'coordenacao_menu') {
+        // Coordenação tem 5 opções, então usa etapa_3 (submenu específico)
         chaveDestino = String((etapas as any)?.etapa_3 || '');
       } else {
+        // Para todos os outros menus, usa etapa_2 (menu principal)
         chaveDestino = String((etapas as any)?.etapa_2 || '');
       }
 
@@ -196,7 +197,17 @@ export const avaliar = async (
   if (etapaAtual === 'coleta_dados') {
     const destinosTransferencia = lerJson('destinosTransferencia.json');
     const etapas = await etapaService.getEtapas(conversa.id);
-    const chaveDestino = String((etapas as any)?.etapa_2 || '');
+    
+    // Lógica para determinar a chave de destino
+    let chaveDestino: string;
+    if ((etapas as any)?.etapa_2 === 'coordenacao_menu') {
+      // Coordenação tem 5 opções, então usa etapa_3 (submenu específico)
+      chaveDestino = String((etapas as any)?.etapa_3 || '');
+    } else {
+      // Para todos os outros menus, usa etapa_2 (menu principal)
+      chaveDestino = String((etapas as any)?.etapa_2 || '');
+    }
+    
     const numeroDestino = destinosTransferencia && chaveDestino && destinosTransferencia.hasOwnProperty(chaveDestino)
       ? destinosTransferencia[chaveDestino]
       : null;
