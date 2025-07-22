@@ -8,10 +8,11 @@ export const criarAcao = async (dados: {
   opcao: string;
   acao_tipo: string;
   conteudo: string;
+  aguarda_resposta?: boolean;
 }) => {
   const [result] = await db.query<ResultSetHeader>(
-    'INSERT INTO acoes_automatizadas (etapa, opcao, acao_tipo, conteudo) VALUES (?, ?, ?, ?)',
-    [dados.etapa, dados.opcao, dados.acao_tipo, dados.conteudo]
+    'INSERT INTO acoes_automatizadas (etapa, opcao, acao_tipo, conteudo, aguarda_resposta) VALUES (?, ?, ?, ?, ?)',
+    [dados.etapa, dados.opcao, dados.acao_tipo, dados.conteudo, dados.aguarda_resposta || false]
   );
   return result.insertId;
 };
@@ -75,10 +76,10 @@ export const buscarPorEtapaEOpcoes = async (etapa: string, opcao: string): Promi
   } as AcaoComArquivos;
 };
 
-export const atualizarAcao = async (id: number, opcao: string, dados: { acao_tipo: string; conteudo: string; }) => {
+export const atualizarAcao = async (id: number, opcao: string, dados: { acao_tipo: string; conteudo: string; aguarda_resposta?: boolean; }) => {
   await db.query(
-    'UPDATE acoes_automatizadas SET acao_tipo = ?, conteudo = ? WHERE id = ? AND opcao = ?',
-    [dados.acao_tipo, dados.conteudo, id, opcao]
+    'UPDATE acoes_automatizadas SET acao_tipo = ?, conteudo = ?, aguarda_resposta = ? WHERE id = ? AND opcao = ?',
+    [dados.acao_tipo, dados.conteudo, dados.aguarda_resposta || false, id, opcao]
   );
 };
 

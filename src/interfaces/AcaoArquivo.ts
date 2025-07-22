@@ -14,5 +14,6 @@ export interface AcaoComArquivos {
   opcao: string;
   acao_tipo: string;
   conteudo: string;
+  aguarda_resposta?: boolean;
   arquivos?: AcaoArquivo[];
 } 

@@ -21,6 +21,14 @@ export const avaliar = async (
   const menus = lerJson('menus.json');
   const destinosTransferencia = lerJson('destinosTransferencia.json');
 
+  // Lógica para quando está aguardando resposta de uma ação
+  if (etapaAtual === 'aguardando_resposta_acao') {
+    // Coleta a resposta e direciona para coleta_dados para transferência
+    await conversaService.atualizarEtapa(conversa.id, 'coleta_dados');
+    // A lógica de coleta_dados já existe mais abaixo no código
+    etapaAtual = 'coleta_dados';
+  }
+
   // Lógica para resposta da lista "Ajudo em algo mais?"
   if (etapasAjudoEmMaisInformacoes?.includes(etapaAtual)) {
     if (mensagem.trim() === '1') {
@@ -114,8 +122,16 @@ export const avaliar = async (
         }
       }
     }
-    // Envia lista de "Ajudo em algo mais?"
-    await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
+    
+    // Verifica se deve aguardar resposta ou enviar menu "ajudo em algo mais"
+    if (acaoDinamica.aguarda_resposta) {
+      // Atualiza etapa para aguardar resposta
+      await conversaService.atualizarEtapa(conversa.id, 'aguardando_resposta_acao');
+      return { tipo: 'aguardando_resposta' };
+    } else {
+      // Comportamento padrão: envia lista de "Ajudo em algo mais?"
+      await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
+    }
   }
 
   // Se encontrou próxima etapa, atualiza conversa e registra etapa

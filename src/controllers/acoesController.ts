@@ -10,14 +10,15 @@ interface MulterRequest extends Request {
 export const criar = async (req: Request, res: Response) => {
   try {
     const mReq = req as MulterRequest;
-    const { etapa, opcao, acao_tipo, conteudo } = req.body;
+    const { etapa, opcao, acao_tipo, conteudo, aguarda_resposta } = req.body;
 
     // Criar ação principal
     const acaoId = await acoesService.criarAcao({
       etapa,
       opcao,
       acao_tipo,
-      conteudo
+      conteudo,
+      aguarda_resposta: aguarda_resposta === true || aguarda_resposta === 'true'
     });
 
     // Adicionar arquivos se existirem (múltiplos arquivos)

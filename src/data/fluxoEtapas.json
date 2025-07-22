@@ -1,7 +1,7 @@
 {
   "etapasAjudoEmMaisInformacoes": [
-    "matriculas_infantil_solicitar_video"
-
+    "matriculas_infantil_solicitar_video",
+    "coordenacao_anos_segunda_chamada"
   ],
   "etapasDeEncaminhamentoDireto": [
     "rh_outros_assuntos",
@@ -31,7 +31,6 @@
     "coordenacao_anos_iniciais_horario_aula",
     "coordenacao_anos_iniciais_cronograma",
     "coordenacao_anos_iniciais_recuperacao",
-    "coordenacao_anos_segunda_chamada",
     "coordenacao_anos_iniciais_eventos",
     "coordenacao_anos_iniciais_passeios_exeternos",
     "coordenacao_anos_iniciais_outros_assuntos",
@@ -57,12 +56,12 @@
   ],
   "rotas": {
     "menu_principal": {
+      "0": "encerrar_atendimento",
       "1": "matriculas_menu",
       "2": "coordenacao_menu",
       "3": "financeiro_menu",
       "4": "documentacao_menu",
-      "5": "rh_menu",
-      "0": "encerrar_atendimento"
+      "5": "rh_menu"
     }
   },
   "matriculas_menu": {
