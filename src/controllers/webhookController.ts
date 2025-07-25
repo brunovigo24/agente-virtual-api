@@ -46,13 +46,10 @@ export const handleWebhook = async (req: Request, res: Response) => {
     const primeiraInteracao = !conversa;
 
     if (primeiraInteracao) {
-      // Cria nova conversa
       conversa = await conversaService.criar(cliente);
-      // Após criar, conversa não será mais null
     }
 
     if (!conversa) {
-      // Fallback de segurança, não deve ocorrer
       return res.status(500).json({ error: 'Falha ao criar ou recuperar conversa' });
     }
 

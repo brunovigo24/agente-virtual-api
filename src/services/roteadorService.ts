@@ -14,7 +14,6 @@ export const avaliar = async (
   telefone: string
 ): Promise<AvaliarResultado | null> => {
 
-  // Carregar dados do JSON a cada execução para evitar problemas de cache
   const fluxoEtapas = lerJson('fluxoEtapas.json');
   const etapasDeEncaminhamentoDireto: string[] = fluxoEtapas.etapasDeEncaminhamentoDireto;
   const etapasAjudoEmMaisInformacoes: string[] = fluxoEtapas.etapasAjudoEmMaisInformacoes;
@@ -23,9 +22,7 @@ export const avaliar = async (
 
   // Lógica para quando está aguardando resposta de uma ação
   if (etapaAtual === 'aguardando_resposta_acao') {
-    // Coleta a resposta e direciona para coleta_dados para transferência
     await conversaService.atualizarEtapa(conversa.id, 'coleta_dados');
-    // A lógica de coleta_dados já existe mais abaixo no código
     etapaAtual = 'coleta_dados';
   }
 
@@ -84,13 +81,11 @@ export const avaliar = async (
     } else if (acaoDinamica.acao_tipo === 'link') {
       await evolutionApiService.enviarMensagem(telefone, `🔗 ${acaoDinamica.conteudo}`);
     } else if (acaoDinamica.acao_tipo === 'arquivo' && acaoDinamica.arquivos && acaoDinamica.arquivos.length > 0) {
-      // Processar múltiplos arquivos
+      
       for (let i = 0; i < acaoDinamica.arquivos.length; i++) {
         const arquivo = acaoDinamica.arquivos[i];
         
-        // Converter Buffer para base64
         const base64 = arquivo.arquivo.toString('base64');
-        // Definir mediatype dinamicamente
         let mediatype = arquivo.arquivo_tipo.split('/')[0];
         if (mediatype === 'application') {
           mediatype = 'document';
@@ -98,14 +93,14 @@ export const avaliar = async (
         
         // Criar legenda com numeração se houver múltiplos arquivos
         let caption = acaoDinamica.conteudo;
-        if (acaoDinamica.arquivos.length > 1) {
-          caption = `${acaoDinamica.conteudo} (${i + 1}/${acaoDinamica.arquivos.length})`;
-        }
+        // if (acaoDinamica.arquivos.length > 1) {
+          caption = `${acaoDinamica.conteudo}`;
+        // }
         
         await evolutionApiService.enviarArquivo(
           telefone,
           {
-            mediatype: mediatype, // dinâmico conforme arquivo_tipo
+            mediatype: mediatype,
             mimetype: arquivo.arquivo_tipo,
             media: base64,
             fileName: arquivo.arquivo_nome
@@ -116,7 +111,6 @@ export const avaliar = async (
           }
         );
         
-        // Pequeno delay entre arquivos para evitar rate limiting
         if (i < acaoDinamica.arquivos.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
@@ -125,11 +119,9 @@ export const avaliar = async (
     
     // Verifica se deve aguardar resposta ou enviar menu "ajudo em algo mais"
     if (acaoDinamica.aguarda_resposta) {
-      // Atualiza etapa para aguardar resposta
       await conversaService.atualizarEtapa(conversa.id, 'aguardando_resposta_acao');
       return { tipo: 'aguardando_resposta' };
     } else {
-      // Comportamento padrão: envia lista de "Ajudo em algo mais?"
       await evolutionApiService.enviarLista(telefone,(menus as any).ajudo_mais);
     }
   }
@@ -141,17 +133,12 @@ export const avaliar = async (
 
     const destinosTransferencia = lerJson('destinosTransferencia.json');
 
-    console.log('destinosTransferencia:', destinosTransferencia);
-    // Encaminhamento direto: se etapa está na lista, transfere já
     if (etapasDeEncaminhamentoDireto.includes(proximaEtapa)) {
       const etapas = await etapaService.getEtapas(conversa.id);
-      // Lógica para determinar a chave de destino
       let chaveDestino: string;
       if ((etapas as any)?.etapa_2 === 'coordenacao_menu') {
-        // Coordenação tem 5 opções, então usa etapa_3 (submenu específico)
         chaveDestino = String((etapas as any)?.etapa_3 || '');
       } else {
-        // Para todos os outros menus, usa etapa_2 (menu principal)
         chaveDestino = String((etapas as any)?.etapa_2 || '');
       }
 
@@ -176,8 +163,6 @@ export const avaliar = async (
       // Verificar se a próxima etapa tem opções que levam para coleta_dados
       const proximaEtapaOpcoes = (fluxoEtapas as any)[proximaEtapa];
       if (proximaEtapaOpcoes && proximaEtapaOpcoes['*'] === 'coleta_dados') {
-        console.log('Debug - Próxima etapa tem wildcard para coleta_dados, processando...');
-        // Processar qualquer mensagem como coleta_dados
         etapaAtual = 'coleta_dados';
       } else {
         const menuKey = (proximaEtapa as string).replace(/_menu$/, 'Menu');
@@ -198,13 +183,10 @@ export const avaliar = async (
     const destinosTransferencia = lerJson('destinosTransferencia.json');
     const etapas = await etapaService.getEtapas(conversa.id);
     
-    // Lógica para determinar a chave de destino
     let chaveDestino: string;
     if ((etapas as any)?.etapa_2 === 'coordenacao_menu') {
-      // Coordenação tem 5 opções, então usa etapa_3 (submenu específico)
       chaveDestino = String((etapas as any)?.etapa_3 || '');
     } else {
-      // Para todos os outros menus, usa etapa_2 (menu principal)
       chaveDestino = String((etapas as any)?.etapa_2 || '');
     }
     
@@ -223,10 +205,10 @@ export const avaliar = async (
     }
   }
 
-  // Caso apenas ação foi executada, sem transição
+  // Caso apenas uma ação foi executada, sem transição
   if (acaoDinamica) {
     return { tipo: 'acao' };
   }
 
-  return null; // Nenhuma opção válida encontrada
+  return null;
 };
