@@ -20,7 +20,7 @@ export const criarInstancia = async (nome: string, numero: string) => {
     alwaysOnline: true,
     readMessages: true,
     readStatus: true,
-    syncFullHistory: true,
+    syncFullHistory: false, // Desabilita sincronização de histórico completo
     webhook: {
       url: process.env.WEBHOOK_URL,
       byEvents: false,

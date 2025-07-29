@@ -77,6 +77,12 @@ O sistema utiliza MySQL com as seguintes tabelas principais:
 - `etapas` - Controle do fluxo de navegação
 - `users` - Controle e registro de usuários do sistema
 
+### 📁 Armazenamento de Arquivos
+
+O sistema utiliza MinIO (S3-compatible) para armazenamento de arquivos:
+- Arquivos de mídia (imagens, vídeos, documentos) são armazenados no bucket `evolution-media`
+- Configuração via variáveis de ambiente: `S3_ENABLED`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`
+
 ## 📂 Estrutura do Projeto
 
 - `src/` - Código-fonte da aplicação
