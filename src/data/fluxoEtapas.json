@@ -1,14 +1,12 @@
 {
-  "etapasAjudoEmMaisInformacoes": [
-    "matriculas_infantil_solicitar_video",
-    "coordenacao_anos_segunda_chamada"
-  ],
+  "etapasAjudoEmMaisInformacoes": [],
   "etapasDeEncaminhamentoDireto": [
     "rh_outros_assuntos",
     "matriculas_infantil_agendar_visita",
     "matriculas_infantil_solicitar_mais_informacoes",
     "matriculas_anos_iniciais_agendar_visita",
     "matriculas_anos_iniciais_solicitar_mais_informacoes",
+    "segunda_chamada_falar_com_atendente",
     "matriculas_anos_finais_agendar_visita",
     "matriculas_anos_finais_solicitar_mais_informacoes",
     "matriculas_ensino_medio_agendar_visita",
@@ -31,7 +29,6 @@
     "coordenacao_anos_iniciais_horario_aula",
     "coordenacao_anos_iniciais_cronograma",
     "coordenacao_anos_iniciais_recuperacao",
-    "coordenacao_anos_iniciais_eventos",
     "coordenacao_anos_iniciais_passeios_exeternos",
     "coordenacao_anos_iniciais_outros_assuntos",
     "coordenacao_anos_finais_calendario",
@@ -117,10 +114,20 @@
     "2": "coordenacao_anos_iniciais_horario_aula",
     "3": "coordenacao_anos_iniciais_cronograma",
     "4": "coordenacao_anos_iniciais_recuperacao",
-    "5": "coordenacao_anos_segunda_chamada",
+    "5": "coordenacao_anos_iniciais_segunda_chamada",
     "6": "coordenacao_anos_iniciais_eventos",
     "7": "coordenacao_anos_iniciais_passeios_exeternos",
     "8": "coordenacao_anos_iniciais_outros_assuntos"
+  },
+  "coordenacao_anos_iniciais_segunda_chamada": {
+    "1": "segunda_chamada_calendario",
+    "2": "segunda_chamada_pix_pagamento",
+    "3": "segunda_chamada_falar_com_atendente"
+  },
+  "coordenacao_anos_iniciais_eventos": {
+    "1": "iniciais_eventos_gincana",
+    "2": "iniciais_eventos_manha_autografos",
+    "3": "iniciais_eventos_evento_encerramento"
   },
   "coordenacao_anos_finais": {
     "1": "coordenacao_anos_finais_calendario",
