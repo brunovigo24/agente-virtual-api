@@ -38,9 +38,7 @@ export const handleWebhook = async (req: Request, res: Response) => {
     
     if (arquivoInfo) {
       try {
-        console.log('[Webhook] Arquivo detectado:', arquivoInfo);
         arquivoProcessado = await evolutionDownloadService.baixarArquivo(arquivoInfo);
-        console.log('[Webhook] Arquivo baixado com sucesso:', arquivoProcessado.nome);
       } catch (error) {
         console.error('[Webhook] Erro ao baixar arquivo:', error);
       }
@@ -51,11 +49,11 @@ export const handleWebhook = async (req: Request, res: Response) => {
     }
 
     // Filtro para homologação: apenas processa mensagens do número de teste
-    const numeroTeste = '554498667555@s.whatsapp.net';
-    if (telefone !== numeroTeste && !telefone.includes('554498667555')) {
-      console.log(`[Webhook] Mensagem ignorada - número não autorizado: ${telefone}`);
-      return res.json({ status: 'ignorado: número não autorizado para homologação' });
-    }
+    // const numeroTeste = '554488587535@s.whatsapp.net';
+    // if (telefone !== numeroTeste && !telefone.includes('554488587535')) {
+    //   console.log(`[Webhook] Mensagem ignorada - número não autorizado: ${telefone}`);
+    //   return res.json({ status: 'ignorado: número não autorizado para homologação' });
+    // }
 
     const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
     let conversa: import('../interfaces/Conversa').Conversa | null = await conversaService.getAtiva(cliente);
