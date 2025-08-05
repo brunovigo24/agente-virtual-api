@@ -22,7 +22,7 @@ router.get('/', (req: Request, res: Response) => {
       <head><title>Status da API</title></head>
       <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
         <h1>✅ API do Atendente Virtual está funcionando!</h1>
-        <p>Versão 2.0.3 - ${dataHora} (Horário de Brasília)</p>
+        <p>Versão 3.0.0 - ${dataHora} (Horário de Brasília)</p>
       </body>
     </html>
   `);
