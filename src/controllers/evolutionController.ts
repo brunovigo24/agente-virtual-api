@@ -41,6 +41,7 @@ export const statusInstancia = async (req: Request, res: Response) => {
 export const listarInstancias = async (req: Request, res: Response) => {
   try {
     const resultado = await evolutionManager.fetchAllInstancias();
+    console.log(resultado);
     res.json(resultado);
   } catch (error) {
     res.status(500).json({
