@@ -203,6 +203,50 @@
       }
     ]
   },
+  "coordenacao_anos_iniciais_segunda_chamada": {
+    "titulo": "2° Chamada",
+    "descricao": "Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ PIX para pagamento\n3️⃣ Falar com atendente\n↩️ Voltar",
+    "opcoes": [
+      {
+        "id": "1",
+        "titulo": "Calendário Escolar"
+      },
+      {
+        "id": "2",
+        "titulo": "PIX para pagamento"
+      },
+      {
+        "id": "3",
+        "titulo": "Falar com atendente"
+      },
+      {
+        "id": "#",
+        "titulo": "↩️ Voltar"
+      }
+    ]
+  },
+  "coordenacao_anos_iniciais_eventos": {
+    "titulo": "Eventos",
+    "descricao": "Escolha uma das opções abaixo:\n1️⃣ Ginca 2025\n2️⃣ Manhã de autógrafos\n3️⃣ Evento de encerramento\n↩️ Voltar",
+    "opcoes": [
+      {
+        "id": "1",
+        "titulo": "Ginca 2025"
+      },
+      {
+        "id": "2",
+        "titulo": "Manhã de autógrafos"
+      },
+      {
+        "id": "3",
+        "titulo": "Evento de encerramento"
+      },
+      {
+        "id": "#",
+        "titulo": "↩️ Voltar"
+      }
+    ]
+  },
   "coordenacao_anos_finais": {
     "titulo": "Anos Finais",
     "descricao": "Escolha uma das opções abaixo:\n1️⃣ Calendário Escolar\n2️⃣ Horário de aula\n3️⃣ Cronograma de prova\n4️⃣ Recuperação\n5️⃣ 2° Chamada\n6️⃣ Eventos\n7️⃣ Passeios externos\n8️⃣ Outros assuntos\n↩️ Voltar",
