@@ -1,8 +1,11 @@
 import { salvarInstancia, removerInstancia } from './evolutionInstanceService';
 import { EvolutionCreateResponse } from '../interfaces/EvolutionInstance';
 
-const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || '';
-const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || '';
+const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || 'https://evolution-api.ccim.com.br';
+const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || 'b976c0eca01fb1af44e10f81985cfe74';
+const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://bot.ccim.com.br/webhook/whatsapp';
+
+//console.log('url:' + EVOLUTION_API_URL, 'key' + EVOLUTION_API_KEY);
 
 export const criarInstancia = async (nome: string, numero: string) => {
   if (!EVOLUTION_API_URL || !EVOLUTION_API_KEY) {
@@ -22,7 +25,7 @@ export const criarInstancia = async (nome: string, numero: string) => {
     readStatus: true,
     syncFullHistory: true,
     webhook: {
-      url: process.env.WEBHOOK_URL,
+      url: WEBHOOK_URL,
       byEvents: false,
       base64: true,
       headers: {
@@ -41,6 +44,10 @@ export const criarInstancia = async (nome: string, numero: string) => {
     },
     body: JSON.stringify(body)
   });
+  
+  //console.log(`${EVOLUTION_API_URL}/instance/create`);
+  //console.log(body);
+  //console.log(response);
 
   if (!response.ok) {
     const erro = await response.json();
@@ -156,6 +163,8 @@ export const fetchAllInstancias = async () => {
   });
 
   const data = await response.json();
+  
+  console.log(response);
 
   if (!response.ok) {
     throw new Error(data?.message || 'Erro ao buscar instâncias');
