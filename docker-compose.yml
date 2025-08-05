@@ -7,16 +7,16 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - EVOLUTION_API_URL=http://172.26.0.4:8080
+      - EVOLUTION_API_URL=http://127.0.0.1:8083
       - EVOLUTION_API_HASH=B2EE0C67A4D1-4FF7-8B53-7D47EEF00258
       - EVOLUTION_INSTANCE_NAME=Bruno2
       - EVOLUTION_API_KEY=123
-      - CORS_ORIGIN=http://localhost:4000
-      - WEBHOOK_URL=http://172.26.0.1:3000/webhook/whatsapp
-      - DB_HOST=172.17.0.1
-      - DB_DATABASE=automacaobeta
+      - CORS_ORIGIN=*
+      - WEBHOOK_URL=https://bot.ccim.com.br/webhook/whatsapp
+      - DB_HOST=127.0.0.1
+      - DB_DATABASE=bot-ccm
       - DB_USER=root
-      - DB_PASSWORD=123
+      - DB_PASSWORD=f48dfe2976bd878d
       - DB_PORT=3306
     networks:
       - rede_geral

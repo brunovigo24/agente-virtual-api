@@ -1,8 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { authRoutes } from './routes/authRoutes';
 import fluxoRoutes from './routes/fluxoRoutes';
 import { autenticarJWT } from './middlewares/authMiddleware';
-import dotenv from 'dotenv';
-dotenv.config();
 import './config/inatividadeJob';
 import express from 'express';
 import webhookRoutes from './routes/webhookRoutes';
@@ -15,10 +15,11 @@ import acoesRoutes from './routes/acoesRoutes';
 import cors from 'cors';
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN,
+  origin: "*",
   credentials: true
 }));
 

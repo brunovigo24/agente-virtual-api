@@ -5,3 +5,12 @@ export interface Mensagem {
     tipo: string; 
     data_hora: string; // ou Date
 }
+
+export interface MensagemComArquivos extends Mensagem {
+    arquivos?: {
+        buffer: Buffer;
+        name: string;
+        contentType: string;
+        size: number;
+    }[];
+}
