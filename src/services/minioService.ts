@@ -2,9 +2,9 @@ import { Client } from 'minio';
 import db from '../database';
 
 const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT || 'http://localhost:9000';
-const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY || 'evolution';
-const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY || 'evolution123';
-const MINIO_BUCKET = process.env.MINIO_BUCKET || 'evolution-media';
+const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY || '';
+const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY || '';
+const MINIO_BUCKET = process.env.MINIO_BUCKET || 'app-media';
 
 export interface MinioFile {
   name: string;

@@ -11,7 +11,7 @@ export const autenticarJWT = (req: Request, res: Response, next: NextFunction): 
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'segredo');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'change-me');
     (req as any).usuario = decoded;
     next();
   } catch (err) {

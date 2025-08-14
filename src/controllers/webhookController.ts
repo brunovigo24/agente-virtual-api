@@ -49,8 +49,8 @@ export const handleWebhook = async (req: Request, res: Response) => {
     }
 
     // Filtro para homologação: apenas processa mensagens do número de teste
-    // const numeroTeste = '554488587535@s.whatsapp.net';
-    // if (telefone !== numeroTeste && !telefone.includes('554488587535')) {
+    // const numeroTeste = process.env.WHATSAPP_TEST_NUMBER || '';
+    // if (telefone !== `${numeroTeste}@s.whatsapp.net` && !telefone.includes(numeroTeste)) {
     //   console.log(`[Webhook] Mensagem ignorada - número não autorizado: ${telefone}`);
     //   return res.json({ status: 'ignorado: número não autorizado para homologação' });
     // }

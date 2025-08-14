@@ -1,9 +1,9 @@
 import { salvarInstancia, removerInstancia } from './evolutionInstanceService';
 import { EvolutionCreateResponse } from '../interfaces/EvolutionInstance';
 
-const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || 'https://evolution-api.ccim.com.br';
-const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || 'b976c0eca01fb1af44e10f81985cfe74';
-const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://bot.ccim.com.br/webhook/whatsapp';
+const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || 'http://localhost:8080';
+const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || '';
+const WEBHOOK_URL = process.env.WEBHOOK_URL || 'http://localhost:3000/webhook/whatsapp';
 
 //console.log('url:' + EVOLUTION_API_URL, 'key' + EVOLUTION_API_KEY);
 

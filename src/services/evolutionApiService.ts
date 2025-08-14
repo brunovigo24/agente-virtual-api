@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { buscarInstanciaAtiva, buscarInstanciaPorNome } from './evolutionInstanceService';
 
-const API_URL = process.env.EVOLUTION_API_URL || "https://evolution-api.ccim.com.br";
+const API_URL = process.env.EVOLUTION_API_URL || "http://localhost:8080";
 
 /**
  * Envia mensagem de texto simples 

@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
   const token = jwt.sign(
     { id: user.id, username: user.username },
-    process.env.JWT_SECRET || 'segredo',
+    process.env.JWT_SECRET || 'change-me',
     { expiresIn: '1h' }
   );
 
