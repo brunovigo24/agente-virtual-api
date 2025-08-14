@@ -59,25 +59,25 @@ Se quiser remover tudo (containers, volumes e imagens associadas):
 
 Defina as variáveis em um arquivo `.env` na raiz do projeto ou diretamente no ambiente de execução:
 
-- **EVOLUTION_API_URL**: URL base da Evolution API (ex.: `http://localhost:8080`)
-- **EVOLUTION_API_KEY**: chave de API para operações administrativas (criação/gerência de instâncias)
-- **EVOLUTION_INSTANCE_NAME**: nome da instância padrão (opcional)
-- **EVOLUTION_API_HASH**: hash de instância (se aplicável/externo; não usado diretamente pelo código)
-- **WEBHOOK_URL**: URL pública do webhook do bot (ex.: `http://localhost:3000/webhook/whatsapp`)
-- **JWT_SECRET**: segredo para assinar tokens JWT
+- `EVOLUTION_API_URL` - URL base da Evolution API (ex.: `http://localhost:8080`)
+- `EVOLUTION_API_KEY` - chave de API para operações administrativas (criação/gerência de instâncias)
+- `EVOLUTION_INSTANCE_NAME` - nome da instância padrão 
+- `EVOLUTION_API_HASH` - hash de instância (se aplicável/externo; não usado diretamente pelo código)
+- `WEBHOOK_URL` - URL pública do webhook do bot (ex.: `http://localhost:3000/webhook/whatsapp`)
+- `JWT_SECRET` - segredo para assinar tokens JWT
 
-- **DB_HOST**: host do MySQL (padrão: `127.0.0.1`)
-- **DB_DATABASE**: nome do banco (padrão: `app_db`)
-- **DB_USER**: usuário do banco (padrão: `root`)
-- **DB_PASSWORD**: senha do banco
-- **DB_PORT**: porta (padrão: `3306`)
+- `DB_HOST` - host do MySQL (padrão: `127.0.0.1`)
+- `DB_DATABASE` - nome do banco (padrão: `app_db`)
+- `DB_USER` - usuário do banco (padrão: `root`)
+- `DB_PASSWORD` - senha do banco
+- `DB_PORT` - porta (padrão: `3306`)
 
-- **MINIO_ENDPOINT**: endpoint do MinIO (ex.: `http://localhost:9000`)
-- **MINIO_ACCESS_KEY**: access key do MinIO
-- **MINIO_SECRET_KEY**: secret key do MinIO
-- **MINIO_BUCKET**: bucket para armazenamento (padrão: `app-media`)
+- `MINIO_ENDPOINT` - endpoint do MinIO (ex.: `http://localhost:9000`)
+- `MINIO_ACCESS_KEY` - access key do MinIO
+- `MINIO_SECRET_KEY` - secret key do MinIO
+- `MINIO_BUCKET` - bucket para armazenamento (padrão: `app-media`)
 
-- **WHATSAPP_TEST_NUMBER**: número de teste (opcional, usado para filtrar mensagens em homologação)
+- `WHATSAPP_TEST_NUMBER` - número de teste (opcional, usado para filtrar mensagens em homologação)
 
 Se não definidas, valores padrão seguros de desenvolvimento serão utilizados conforme o código fonte.
 
