@@ -57,15 +57,29 @@ Se quiser remover tudo (containers, volumes e imagens associadas):
 
 ## 🔑 Variáveis de Ambiente
 
-O sistema utiliza variáveis de ambiente para configurar a integração com a Evolution API. Você pode definir essas variáveis em um arquivo `.env` na raiz do projeto ou diretamente no ambiente de execução:
+Defina as variáveis em um arquivo `.env` na raiz do projeto ou diretamente no ambiente de execução:
 
-- `EVOLUTION_API_URL` - URL base da API Evolution (exemplo: `http://172.26.0.4:8080`)
-- `EVOLUTION_API_HASH` - Hash para autenticação
-- `EVOLUTION_INSTANCE_NAME` - Nome da instância configurada na Evolution
-- `EVOLUTION_API_KEY` - Senha da evolution API
+- **EVOLUTION_API_URL**: URL base da Evolution API (ex.: `http://localhost:8080`)
+- **EVOLUTION_API_KEY**: chave de API para operações administrativas (criação/gerência de instâncias)
+- **EVOLUTION_INSTANCE_NAME**: nome da instância padrão (opcional)
+- **EVOLUTION_API_HASH**: hash de instância (se aplicável/externo; não usado diretamente pelo código)
+- **WEBHOOK_URL**: URL pública do webhook do bot (ex.: `http://localhost:3000/webhook/whatsapp`)
+- **JWT_SECRET**: segredo para assinar tokens JWT
 
+- **DB_HOST**: host do MySQL (padrão: `127.0.0.1`)
+- **DB_DATABASE**: nome do banco (padrão: `app_db`)
+- **DB_USER**: usuário do banco (padrão: `root`)
+- **DB_PASSWORD**: senha do banco
+- **DB_PORT**: porta (padrão: `3306`)
 
-Se não definidas, valores padrão serão utilizados conforme o código fonte.
+- **MINIO_ENDPOINT**: endpoint do MinIO (ex.: `http://localhost:9000`)
+- **MINIO_ACCESS_KEY**: access key do MinIO
+- **MINIO_SECRET_KEY**: secret key do MinIO
+- **MINIO_BUCKET**: bucket para armazenamento (padrão: `app-media`)
+
+- **WHATSAPP_TEST_NUMBER**: número de teste (opcional, usado para filtrar mensagens em homologação)
+
+Se não definidas, valores padrão seguros de desenvolvimento serão utilizados conforme o código fonte.
 
 ### 🗄️ Banco de Dados
 
@@ -77,11 +91,31 @@ O sistema utiliza MySQL com as seguintes tabelas principais:
 - `etapas` - Controle do fluxo de navegação
 - `users` - Controle e registro de usuários do sistema
 
-### 📁 Armazenamento de Arquivos
+### 📁 Armazenamento de Arquivos (MinIO)
 
-O sistema utiliza MinIO (S3-compatible) para armazenamento de arquivos:
-- Arquivos de mídia (imagens, vídeos, documentos) são armazenados no bucket `evolution-media`
-- Configuração via variáveis de ambiente: `S3_ENABLED`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`
+O sistema utiliza MinIO (compatível com S3) para armazenar mídias recebidas/enviadas:
+- Arquivos de mídia (imagens, vídeos, documentos) são armazenados no bucket configurado em `MINIO_BUCKET` (padrão: `app-media`).
+- Configure via variáveis: `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET`.
+
+Exemplo de execução local do MinIO via Docker (desenvolvimento):
+
+```bash
+docker run -p 9000:9000 -p 9001:9001 \
+  -e MINIO_ROOT_USER=minioadmin \
+  -e MINIO_ROOT_PASSWORD=minioadmin \
+  -v $(pwd)/.minio/data:/data \
+  -v $(pwd)/.minio/config:/root/.minio \
+  quay.io/minio/minio server /data --console-address ":9001"
+```
+
+Exemplo de variáveis no `.env`:
+
+```bash
+MINIO_ENDPOINT=http://localhost:9000
+MINIO_ACCESS_KEY=minioadmin
+MINIO_SECRET_KEY=minioadmin
+MINIO_BUCKET=app-media
+```
 
 ## 📂 Estrutura do Projeto
 
