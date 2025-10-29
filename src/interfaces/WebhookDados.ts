@@ -9,10 +9,19 @@ export interface WebhookDados {
     pushName?: string;
     message?: {
       conversation?: string;
+      extendedTextMessage?: {
+        text?: string;
+        contextInfo?: any;
+      };
       listResponseMessage?: {
         singleSelectReply?: {
           selectedRowId?: string;
         };
+      };
+      buttonsResponseMessage?: {
+        selectedButtonId?: string;
+        selectedDisplayText?: string;
+        contextInfo?: any;
       };
       // Suporte para arquivos/imagens
       imageMessage?: {

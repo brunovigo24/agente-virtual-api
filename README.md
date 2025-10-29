@@ -133,8 +133,15 @@ MINIO_BUCKET=app-media
 O sistema integra com a Evolution API para:
 
 - Envio de mensagens de texto
-- Envio de listas interativas
+- Envio de menus formatados como texto com numeração
+- Suporte a respostas de texto do usuário
 - Gerenciamento de instâncias WhatsApp
+- Download e envio de arquivos/mídias
+
+**Nota sobre Listas:** O WhatsApp descontinuou o suporte a List Messages em muitas situações. O sistema agora usa **mensagens de texto formatadas** para todos os menus, garantindo:
+- ✅ 100% de compatibilidade com todas as versões do WhatsApp
+- ✅ Funcionamento confiável sem dependências de recursos especiais
+- ✅ Interface simples e direta para o usuário
 
 
 ## 🔁 Comunicação com a API

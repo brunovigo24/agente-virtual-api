@@ -11,11 +11,9 @@ import { WebhookDados } from '../interfaces/WebhookDados';
 export const handleWebhook = async (req: Request, res: Response) => {
   try {
     const dados: WebhookDados = req.body;
-    console.log('[Webhook] Dados recebidos:', JSON.stringify(dados, null, 2));
 
     // Filtro para evitar loop: ignore mensagens enviadas pelo próprio bot
     if (dados?.data?.key?.fromMe) {
-      console.log('[Webhook] Mensagem ignorada - fromMe = true');
       return res.json({ status: 'ignorado: mensagem do próprio bot' });
     }
 
@@ -27,26 +25,18 @@ export const handleWebhook = async (req: Request, res: Response) => {
     const instancia = dados?.instance;
     const nomePessoa = dados?.data?.pushName || 'Desconhecido';
     const idMensagem = dados?.data?.key?.id;
-
-    console.log('[Webhook] ===== DADOS EXTRAÍDOS =====');
-    console.log('[Webhook] Telefone (remoteJid):', telefone);
-    if (telefone && telefone.endsWith('@lid')) {
-      console.log('[Webhook] Detected @lid. remoteJidAlt:', remoteJidAlt || 'N/A');
-      console.log('[Webhook] Telefone de envio (após regra @lid -> alt se houver):', telefoneEnvio);
-    }
-    console.log('[Webhook] Instância:', instancia);
-    console.log('[Webhook] Nome da pessoa:', nomePessoa);
-    console.log('[Webhook] ID da mensagem:', idMensagem);
     
-    // Extrai mensagem normal ou rowId de resposta de lista
+    // Extrai mensagem de diferentes tipos:
+    // - conversation: mensagem de texto normal
+    // - listResponseMessage: resposta de lista (legado)
+    // - buttonsResponseMessage: resposta de botões
+    // - extendedTextMessage: mensagem de texto estendida
     const mensagem =
       dados?.data?.message?.conversation ||
+      dados?.data?.message?.extendedTextMessage?.text ||
       dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
+      dados?.data?.message?.buttonsResponseMessage?.selectedButtonId ||
       '';
-
-    console.log('[Webhook] ===== MENSAGEM EXTRAÍDA =====');
-    console.log('[Webhook] Mensagem:', mensagem);
-    console.log('[Webhook] Tipo da mensagem:', dados?.data?.message ? (dados?.data as any).messageType || (dados?.data?.message?.listResponseMessage ? 'listMessage' : 'conversation') : 'desconhecido');
 
     // Verifica se há arquivo na mensagem
     let arquivoInfo = null;
@@ -66,21 +56,12 @@ export const handleWebhook = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Telefone não informado' });
     }
 
-    console.log('[Webhook] ===== VALIDAÇÃO DO TELEFONE =====');
-    console.log('[Webhook] Telefone recebido:', telefone);
-    console.log('[Webhook] Tamanho do telefone:', String(telefone).length);
-    console.log('[Webhook] Contém @:', String(telefone).includes('@'));
-    console.log('[Webhook] Sufixo:', String(telefone).includes('@') ? String(telefone).split('@')[1] : '');
-
     // Filtro para homologação: apenas processa mensagens do número de teste
-    // const numeroTeste = process.env.WHATSAPP_TEST_NUMBER || '';
+    // const numeroTeste = process.env.WHATSAPP_TEST_NUMBER || '554488587535';
     // if (telefone !== `${numeroTeste}@s.whatsapp.net` && !telefone.includes(numeroTeste)) {
-    //   console.log(`[Webhook] Mensagem ignorada - número não autorizado: ${telefone}`);
     //   return res.json({ status: 'ignorado: número não autorizado para homologação' });
     // }
 
-    console.log('[Webhook] ===== PROCESSAMENTO DO CLIENTE =====');
-    console.log('[Webhook] Chamando findOrCreateByTelefone com:', { telefone: telefoneEnvio, nomePessoa });
     const cliente = await clienteService.findOrCreateByTelefone(telefoneEnvio!, nomePessoa);
     let conversa: import('../interfaces/Conversa').Conversa | null = await conversaService.getAtiva(cliente);
 
