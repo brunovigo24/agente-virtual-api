@@ -3,6 +3,7 @@ export interface WebhookDados {
     key?: {
       fromMe?: boolean;
       remoteJid?: string;
+      remoteJidAlt?: string; // JID alternativo fornecido pela Evolution quando remoteJid vem como "@lid"
       id?: string;
     };
     pushName?: string;
