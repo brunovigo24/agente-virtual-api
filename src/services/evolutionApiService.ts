@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { buscarInstanciaAtiva, buscarInstanciaPorNome } from './evolutionInstanceService';
 
-const API_URL = process.env.EVOLUTION_API_URL || "https://evolution-api.ccim.com.br";
+const API_URL = process.env.EVOLUTION_API_URL || "http://localhost:8080";
 
 /**
  * Envia mensagem de texto simples 
@@ -27,12 +27,6 @@ export async function enviarMensagem(telefone: string, texto: string, instanceNa
     text: texto
   };
 
-  // Adicione este log para depuração
-  console.log('Enviando para Evolution:', {
-    endpoint: `${API_URL}/message/sendText/${instancia.instance_name}`,
-    payload
-  });
-
   try {
     const response = await axios.post(
       `${API_URL}/message/sendText/${instancia.instance_name}`,
@@ -44,21 +38,16 @@ export async function enviarMensagem(telefone: string, texto: string, instanceNa
         }
       }
     );
-    console.log('Mensagem enviada:', response.status, response.data);
     return response.data;
   } catch (error: any) {
-    console.error('Erro ao enviar mensagem:', {
-      message: error.message,
-      response: error.response?.data, 
-      status: error.response?.status,
-      payload
-    });
+    console.error('[Evolution] Erro ao enviar mensagem:', error.message);
     throw error;
   }
 }
 
 /**
  * Envia uma lista de opções (menu) para o usuário
+ * Utiliza mensagens de texto formatadas para máxima compatibilidade
  * @param telefone - Número do destinatário
  * @param menu - Objeto de menu (menus.menuPrincipal, menus.matriculasMenu, etc)
  */
@@ -80,49 +69,17 @@ export async function enviarLista(
     throw new Error('Nenhuma instância ativa encontrada no banco de dados');
   }
 
-  const numeroLimpo = telefone.replace(/@s\.whatsapp\.net$/, '');
+  // Formata o menu como texto
+  let textoMenu = `*${menu.titulo}*\n\n${menu.descricao}\n\n`;
+  
+  menu.opcoes.forEach(opcao => {
+    textoMenu += `*${opcao.id}* - ${opcao.titulo}\n`;
+  });
+  
+  textoMenu += `\n_Digite o número da opção desejada._`;
 
-  // Monta as opções (rows) a partir do menu recebido
-  const rows = menu.opcoes.map(opcao => ({
-    title: opcao.titulo,
-    rowId: opcao.id
-  }));
-
-  const payload = {
-    instanceName: instancia.instance_name,
-    number: numeroLimpo,
-    title: menu.titulo,
-    description: menu.descricao,
-    buttonText: 'Selecionar',
-    footerText: 'Selecione uma opção abaixo:',
-    sections: [
-      {
-        title: menu.titulo,
-        rows: rows
-      }
-    ],
-    delay: 1000
-  };
-
-  try {
-    const response = await axios.post(
-      `${API_URL}/message/sendList/${instancia.instance_name}`,
-      payload,
-      {
-        headers: {
-          apikey: instancia.hash,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    console.log('Lista enviada:', response.status, response.data);
-    return response.data;
-  } catch (error: any) {
-    console.error('Erro ao enviar lista:', {
-      message: error.message
-    });
-    throw error;
-  }
+  // Envia como mensagem de texto simples
+  return await enviarMensagem(telefone, textoMenu, instanceName);
 }
 
 /**
@@ -191,15 +148,9 @@ export async function enviarArquivo(
         }
       }
     );
-    console.log('Arquivo enviado:', response.status, response.data);
     return response.data;
   } catch (error: any) {
-    console.error('Erro ao enviar arquivo:', {
-      message: error.message,
-      response: error.response?.data,
-      status: error.response?.status,
-      payload
-    });
+    console.error('[Evolution] Erro ao enviar arquivo:', error.message);
     throw error;
   }
 }

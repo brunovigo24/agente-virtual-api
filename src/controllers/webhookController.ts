@@ -11,23 +11,31 @@ import { WebhookDados } from '../interfaces/WebhookDados';
 export const handleWebhook = async (req: Request, res: Response) => {
   try {
     const dados: WebhookDados = req.body;
-    console.log('[Webhook] Dados recebidos:', JSON.stringify(dados, null, 2));
 
     // Filtro para evitar loop: ignore mensagens enviadas pelo próprio bot
     if (dados?.data?.key?.fromMe) {
-      console.log('[Webhook] Mensagem ignorada - fromMe = true');
       return res.json({ status: 'ignorado: mensagem do próprio bot' });
     }
 
     const telefone = dados?.data?.key?.remoteJid;
+    const remoteJidAlt = (dados as any)?.data?.key?.remoteJidAlt as string | undefined;
+    const telefoneEnvio = (telefone && telefone.endsWith('@lid') && remoteJidAlt)
+      ? remoteJidAlt
+      : telefone;
     const instancia = dados?.instance;
     const nomePessoa = dados?.data?.pushName || 'Desconhecido';
     const idMensagem = dados?.data?.key?.id;
     
-    // Extrai mensagem normal ou rowId de resposta de lista
+    // Extrai mensagem de diferentes tipos:
+    // - conversation: mensagem de texto normal
+    // - listResponseMessage: resposta de lista (legado)
+    // - buttonsResponseMessage: resposta de botões
+    // - extendedTextMessage: mensagem de texto estendida
     const mensagem =
       dados?.data?.message?.conversation ||
+      dados?.data?.message?.extendedTextMessage?.text ||
       dados?.data?.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
+      dados?.data?.message?.buttonsResponseMessage?.selectedButtonId ||
       '';
 
     // Verifica se há arquivo na mensagem
@@ -49,13 +57,12 @@ export const handleWebhook = async (req: Request, res: Response) => {
     }
 
     // Filtro para homologação: apenas processa mensagens do número de teste
-    // const numeroTeste = '554488587535@s.whatsapp.net';
-    // if (telefone !== numeroTeste && !telefone.includes('554488587535')) {
-    //   console.log(`[Webhook] Mensagem ignorada - número não autorizado: ${telefone}`);
+    // const numeroTeste = process.env.WHATSAPP_TEST_NUMBER || '554488587535';
+    // if (telefone !== `${numeroTeste}@s.whatsapp.net` && !telefone.includes(numeroTeste)) {
     //   return res.json({ status: 'ignorado: número não autorizado para homologação' });
     // }
 
-    const cliente = await clienteService.findOrCreateByTelefone(telefone, nomePessoa);
+    const cliente = await clienteService.findOrCreateByTelefone(telefoneEnvio!, nomePessoa);
     let conversa: import('../interfaces/Conversa').Conversa | null = await conversaService.getAtiva(cliente);
 
     const primeiraInteracao = !conversa;
@@ -74,21 +81,21 @@ export const handleWebhook = async (req: Request, res: Response) => {
     if (primeiraInteracao) {
       await mensagemService.registrarEntrada(conversa.id, mensagem, arquivoProcessado || undefined);
       await conversaService.atualizarUltimaInteracao(conversa.id);
-      await evolutionApiService.enviarMensagem(telefone, mensagensSistema.boasVindas);
-      await evolutionApiService.enviarLista(telefone, (menus as any).menu_principal);
+      await evolutionApiService.enviarMensagem(telefoneEnvio!, mensagensSistema.boasVindas);
+      await evolutionApiService.enviarLista(telefoneEnvio!, (menus as any).menu_principal);
       return res.json({ status: 'menu enviado' });
     } else {
       await mensagemService.registrarEntrada(conversa.id, mensagem, arquivoProcessado || undefined);
 
       if (mensagem === '0') {
         await conversaService.finalizarConversa(conversa.id);
-        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
+        await evolutionApiService.enviarMensagem(telefoneEnvio!, mensagensSistema.usuarioEncerrouAtendimento);
         return res.json({ status: 'atendimento encerrado' });
       }
 
-      const resultadoRoteador = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa, telefone);
+      const resultadoRoteador = await roteadorService.avaliar(conversa.etapa_atual, mensagem, conversa, telefoneEnvio!);
       if (resultadoRoteador?.tipo === 'menu') {
-        await evolutionApiService.enviarLista(telefone, resultadoRoteador.menu);
+        await evolutionApiService.enviarLista(telefoneEnvio!, resultadoRoteador.menu);
         await conversaService.atualizarUltimaInteracao(conversa.id);
       } else if (resultadoRoteador?.tipo === 'acao') {
         await conversaService.atualizarUltimaInteracao(conversa.id);
@@ -96,17 +103,17 @@ export const handleWebhook = async (req: Request, res: Response) => {
         await conversaService.atualizarUltimaInteracao(conversa.id);
       } else if (resultadoRoteador?.tipo === 'transferido_finalizado') {
         await conversaService.finalizarConversa(conversa.id);
-        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.atendimentoEncerrado);
+        await evolutionApiService.enviarMensagem(telefoneEnvio!, mensagensSistema.atendimentoEncerrado);
       } else if (resultadoRoteador?.tipo === 'finalizado') {
         await conversaService.finalizarConversa(conversa.id);
-        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.usuarioEncerrouAtendimento);
+        await evolutionApiService.enviarMensagem(telefoneEnvio!, mensagensSistema.usuarioEncerrouAtendimento);
       } else if (resultadoRoteador?.tipo === 'etapa_atualizada') {
         await conversaService.atualizarUltimaInteracao(conversa.id);
       } else if (resultadoRoteador?.tipo === 'erro') {
-        await evolutionApiService.enviarMensagem(telefone, resultadoRoteador.mensagem || mensagensSistema.opcaoInvalida);
+        await evolutionApiService.enviarMensagem(telefoneEnvio!, resultadoRoteador.mensagem || mensagensSistema.opcaoInvalida);
         await conversaService.atualizarUltimaInteracao(conversa.id);
       } else {
-        await evolutionApiService.enviarMensagem(telefone, mensagensSistema.opcaoInvalida);
+        await evolutionApiService.enviarMensagem(telefoneEnvio!, mensagensSistema.opcaoInvalida);
         await conversaService.atualizarUltimaInteracao(conversa.id);
       }
     }

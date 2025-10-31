@@ -3,15 +3,25 @@ export interface WebhookDados {
     key?: {
       fromMe?: boolean;
       remoteJid?: string;
+      remoteJidAlt?: string; // JID alternativo fornecido pela Evolution quando remoteJid vem como "@lid"
       id?: string;
     };
     pushName?: string;
     message?: {
       conversation?: string;
+      extendedTextMessage?: {
+        text?: string;
+        contextInfo?: any;
+      };
       listResponseMessage?: {
         singleSelectReply?: {
           selectedRowId?: string;
         };
+      };
+      buttonsResponseMessage?: {
+        selectedButtonId?: string;
+        selectedDisplayText?: string;
+        contextInfo?: any;
       };
       // Suporte para arquivos/imagens
       imageMessage?: {

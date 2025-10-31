@@ -26,5 +26,6 @@ export const findOrCreateByTelefone = async (
     'SELECT * FROM clientes WHERE id = ?',
     [result.insertId]
   ) as [Cliente[], any];
+  
   return newRows[0];
 };
